@@ -1,43 +1,26 @@
-import { ApiResultType } from "./api-base-types";
+/** @format */
 
-export const startBaseProcessAsync = async (action: any, dispatch: any) => {
-  const resultHandler = baseProcessResultHandlerAsync(action, dispatch);
-  const errorHandler = baseProcessErrorHandlerAsync(resultHandler, dispatch);
-  const visualizationHandler = baseProcessVisualizationHandlerAsync(
-    errorHandler,
-    dispatch
-  );
-  return visualizationHandler();
+import { IBaseResponseAPI } from './api-config';
+
+export const startApiProcessAsync = async (action: (args?: any) => Promise<IBaseResponseAPI>, dispatch: any) => {
+  dispatch(setLoader('start'));
+  processResultHandlerAsync(action, dispatch);
+  dispatch(setLoader('stop'));
 };
 
-
-const baseProcessResultHandlerAsync = <T>(
-  action: any,
-  dispatch: any
-) => async () => {
-  const result: ApiResultType<T> = await action();
-  if (!result.isSuccess) {
-    dispatch(showError(result.info));
-  }
-};
-const baseProcessVisualizationHandlerAsync = (
-  action: any,
-  dispatch: any
-) => async () => {
-  dispatch(setLoader("start"));
-  await action();
-  dispatch(setLoader("stop"));
-};
-const baseProcessErrorHandlerAsync = (
-  action: any,
-  dispatch: any
-) => async () => {
+const processResultHandlerAsync = async (action: (args?: any) => Promise<IBaseResponseAPI>, dispatch: any) => {
   try {
-    await action();
+    const response: IBaseResponseAPI = await action();
+    const result = response.isSuccess;
+    if (!result) {
+      dispatch(showError(response.info!));
+    } else {
+      dispatch();
+    }
   } catch {
-    dispatch(showError("error"));
+    dispatch(showError('request error'));
   }
 };
 
 const showError = (message: string) => {};
-const setLoader = (actionType: "start" | "stop") => {};
+const setLoader = (actionType: 'start' | 'stop') => {};

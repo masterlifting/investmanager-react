@@ -1,4 +1,4 @@
-import { startBaseProcessAsync } from "../../api/api-base-processes";
+import { startApiProcessAsync } from "../../api/api-base-processes";
 import { IBaseApi } from "../../api/api-base-types";
 import { ActionTypeCollector, ThunkType } from "../store-base-types";
 import { convertToEntityApp } from '../../api/api-mapper';
@@ -51,7 +51,7 @@ const crudReducerCreator = <TEntityApi, TEntityApp, TParams>( api: IBaseApi<TEnt
     readById: (id: number): ThunkType<ActionType> => async (dispath) => {},
     readAll: (id: number): ThunkType<ActionType> => async (dispath) => {},
     create: (): ThunkType<ActionType> => async (dispath) => {
-      await startBaseProcessAsync(async () => {
+      await startApiProcessAsync(async () => {
         const result = await api.create();
         if (result.isSuccess) {
             const entityApp = convertToEntityApp(result.data);

@@ -1,14 +1,27 @@
-import {
-  IApiShortModel,
-  IApiBaseBrokerReportModel,
-  IApiEntity,
-} from "./api-base-types";
+/** @format */
+
+export interface IApiEntity {}
+export interface IApiShortModel extends IApiEntity {
+  id: number;
+  name: string;
+  description?: string;
+}
+export interface IApiBaseBrokerReportModel extends IApiEntity {
+  currencyId: number;
+  accountId: number;
+  dateOperation: Date;
+}
 
 export interface IApiAccount extends IApiShortModel {}
 export interface IApiCompany extends IApiShortModel {
   dateSplit?: Date;
   industryId: number;
   sectorId: number;
+}
+export interface IApiCompanySummary extends IApiEntity {
+  sectorName: string;
+  industryName: string;
+  currency: string;
 }
 export interface IApiIsin extends IApiShortModel {
   companyId: number;

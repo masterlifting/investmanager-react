@@ -1,3 +1,5 @@
+
+
 export interface IAppQuery {
   getById: (id: number) => Promise<IAppQueryResult<IAppEntity>>;
   getAll: () => Promise<IAppQueryResult<IAppEntity[]>>;
