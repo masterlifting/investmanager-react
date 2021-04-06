@@ -1,20 +1,26 @@
 /** @format */
 
-import { useDispatch } from 'react-redux';
+import { Provider } from 'react-redux';
 import './App.css';
-import { Companies } from './components/company/Companies';
 import React from 'react';
-import { getCompanies } from './components/company/company-thunks';
+import { appStore } from './globalStore/appStore';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import NavBar from './components/Navbar';
+import { Index } from './pages/Index';
+import Accounts from './pages/Accounts';
+import Admin from './pages/Admin';
 
-const App : React.FC = () => {
-
-  const dispatch = useDispatch();
-  return (
-    <div className='App'>
-      <button onClick={() => dispatch(getCompanies())}>get companies</button>
-      <Companies />
-    </div>
-  );
-}
+const App: React.FC = () => (
+  <Provider store={appStore}>
+    <BrowserRouter>
+      <NavBar />
+      <Switch>
+        <Route render={() => <Index />} path='/' exact />
+        <Route render={() => <Accounts />} path='/accounts' />
+        <Route render={() => <Admin />} path='/admin' />
+      </Switch>
+    </BrowserRouter>
+  </Provider>
+);
 
 export default App;

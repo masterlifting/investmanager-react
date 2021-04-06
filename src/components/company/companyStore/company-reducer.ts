@@ -1,11 +1,10 @@
-import { ActionTypeCollector } from "../../globalStore/appStore";
-import { ICompany } from "../../types/app-entity-types";
+/** @format */
+
+import { ActionTypeCollector } from '../../../globalStore/appStore';
+import { ICompany } from '../../../types/app-entity-types';
 
 /** @format */
-const initialState: ICompany[] = [
-  { id: 1, name: 'company 1', selected: true },
-  { id: 2, name: 'company 2', selected: true },
-];
+const initialState: ICompany[] = [];
 
 export const actions = {
   setItems: (items: ICompany[]) => ({ type: 'company/setItems', items } as const),

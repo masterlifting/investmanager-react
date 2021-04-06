@@ -2,7 +2,7 @@
 
 import { Action, applyMiddleware, combineReducers, createStore } from 'redux';
 import thunkMiddleware, { ThunkAction } from 'redux-thunk';
-import { companyReducer } from '../components/company/company-reducer';
+import { companyReducer } from '../components/company/companyStore/company-reducer';
 import { accountReducer } from '../components/account/account-reducer';
 
 export const rootReducer = combineReducers({
