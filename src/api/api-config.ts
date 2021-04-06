@@ -4,7 +4,7 @@ import axios, { AxiosResponse } from 'axios';
 import { IApiEntity } from './api-types';
 
 export const instance = axios.create({
-  baseURL: 'http://localhost:3000/',
+  baseURL: 'https://localhost:44379/',
 });
 
 export interface IBaseResponseAPI {
@@ -28,8 +28,9 @@ export interface IGetAPI<T extends IApiEntity> {
   getAllAsync: () => Promise<IResponseAPI<T[]>>;
 }
 
-export const baseGetResult = <R extends IApiEntity>(response: AxiosResponse<R>): IResponseAPI<R> => {
-  const result: IResponseAPI<R> = { isSuccess: false };
+export const baseGetAsync = async <T extends IApiEntity>(route: string): Promise<IResponseAPI<T>> => {
+  const response = await instance.get<T>(route);
+  const result: IResponseAPI<T> = { isSuccess: false };
   if (response.status === 200) {
     result.isSuccess = true;
     result.data = response.data;
@@ -37,16 +38,16 @@ export const baseGetResult = <R extends IApiEntity>(response: AxiosResponse<R>):
   return result;
 };
 export class GetAPI<T extends IApiEntity> implements IGetAPI<T> {
-  controllerURL: string;
+  private controllerURL: string;
   constructor(controllerURL: string) {
     this.controllerURL = controllerURL;
   }
 
-  getByIdAsync = async (id: number): Promise<IResponseAPI<T>> => baseGetResult(await instance.get<T>(`${this.controllerURL}/${id}`));
-  getAllAsync = async (): Promise<IResponseAPI<T[]>> => baseGetResult(await instance.get<T[]>(this.controllerURL));
+  getByIdAsync = async (id: number): Promise<IResponseAPI<T>> => await baseGetAsync(`${this.controllerURL}/${id}`);
+  getAllAsync = async (): Promise<IResponseAPI<T[]>> => await baseGetAsync(this.controllerURL);
 }
 export class EditAPI<T extends IApiEntity> implements IEditAPI<T> {
-  controllerURL: string;
+  private controllerURL: string;
   constructor(controllerURL: string) {
     this.controllerURL = controllerURL;
   }
