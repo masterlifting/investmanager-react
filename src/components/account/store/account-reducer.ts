@@ -3,12 +3,12 @@
 import { ActionTypeCreator } from '../../../common/types/common-types';
 import { IAccount } from '../types/account-interfaces';
 
-export const actions = {
+export const accountActions = {
   setItems: (items: IAccount[]) => ({ type: 'account/setItems', items } as const),
   setSelected: (id: number) => ({ type: 'account/setSelected', id } as const),
 };
 
-export type AccountActionType = ActionTypeCreator<typeof actions>;
+export type AccountActionType = ActionTypeCreator<typeof accountActions>;
 
 export const accountReducer = (state: IAccount[] = [], action: AccountActionType): IAccount[] => {
   switch (action.type) {

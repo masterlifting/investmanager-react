@@ -3,7 +3,7 @@
 import { companyAPI } from '../../../api/api-implements';
 import { ThunkType } from '../../../common/types/common-types';
 import { ICompany } from '../types/company-interfaces';
-import { actions, CompanyActionType } from './company-reducer';
+import { companyActions, CompanyActionType } from './company-reducer';
 
 export const fetchCompanies = (): ThunkType<CompanyActionType> => async dispatch => {
   const response = await companyAPI.getAPI.getAllAsync();
@@ -13,6 +13,6 @@ export const fetchCompanies = (): ThunkType<CompanyActionType> => async dispatch
       name: x.name,
       selected: false,
     }));
-    dispatch(actions.setItems(companies));
+    dispatch(companyActions.setItems(companies));
   }
 };
