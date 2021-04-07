@@ -1,10 +1,8 @@
 /** @format */
-type CompanyMenuType = {
-  id: number;
-  name: string;
-  selected: boolean;
-};
-const companyMenu: CompanyMenuType[] = [
+
+import { ICompanyMenu } from "./types/company-interfaces";
+
+const companyMenu: ICompanyMenu[] = [
   { id: 1, selected: false, name: 'Дополнительная информация' },
   { id: 2, selected: false, name: 'Транзакции' },
   { id: 3, selected: false, name: 'Рейтинг' },

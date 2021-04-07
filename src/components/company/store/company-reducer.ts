@@ -1,17 +1,15 @@
 /** @format */
 
-import { ActionTypeCollector } from '../../../globalStore/appStore';
-import { ICompany } from '../../../types/app-entity-types';
-
-/** @format */
-const initialState: ICompany[] = [];
+import { ActionTypeCreator } from '../../../common/types/common-types';
+import { ICompany } from '../types/company-interfaces';
 
 export const actions = {
   setItems: (items: ICompany[]) => ({ type: 'company/setItems', items } as const),
   setSelected: (id: number) => ({ type: 'company/setSelected', id } as const),
 };
-export type CompanyActionType = ActionTypeCollector<typeof actions>;
-export const companyReducer = (state = initialState, action: CompanyActionType): ICompany[] => {
+export type CompanyActionType = ActionTypeCreator<typeof actions>;
+
+export const companyReducer = (state: ICompany[] = [], action: CompanyActionType): ICompany[] => {
   switch (action.type) {
     case 'company/setItems':
       return [...action.items];

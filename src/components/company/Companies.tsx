@@ -3,8 +3,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Company } from './Company';
-import { getCompanies } from './companyStore/company-selectors';
-import { fetchCompanies } from './companyStore/company-thunks';
+import { getCompanies } from './store/company-selectors';
+import { fetchCompanies } from './store/company-thunks';
 
 export const Companies: React.FC = () => {
   const dispatch = useDispatch();

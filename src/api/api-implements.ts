@@ -1,7 +1,14 @@
 /** @format */
 
-import { baseGetAsync, EditAPI, GetAPI, IBaseResponseAPI, IResponseAPI } from './api-config';
-import { IApiAccount, IApiCompany, IApiCompanySummary } from './api-types';
+import { IApiAccount } from '../components/account/types/account-interfaces';
+import { IApiCompany, IApiCompanySummary } from '../components/company/types/company-interfaces';
+import { baseGetAsync, EditAPI, GetAPI } from './api-configuration';
+import { IBaseResponseAPI, IResponseAPI } from './api-interfaces';
+
+const endpoints = {
+  account: 'accounts/',
+  company: 'companies/',
+};
 
 const apiTryHandlerAsync = async <TResult extends IBaseResponseAPI, TParam>(
   action: (args?: TParam) => Promise<TResult>,
@@ -32,11 +39,6 @@ export const startApiProcessAsync = async <T extends IBaseResponseAPI, TParam>(a
 
 const showErrorTemp = (message: string) => {};
 const setLoaderTemp = (actionType: 'start' | 'stop') => {};
-
-const endpoints = {
-  account: 'accounts/',
-  company: 'companies/',
-};
 
 export const accountAPI = {
   getAPI: new GetAPI<IApiAccount>(endpoints.account),

@@ -1,32 +1,11 @@
 /** @format */
 
 import axios, { AxiosResponse } from 'axios';
-import { IApiEntity } from './api-types';
+import { IApiEntity, IEditableResponseAPI, IEditAPI, IGetAPI, IResponseAPI } from './api-interfaces';
 
 export const instance = axios.create({
   baseURL: 'https://localhost:44379/',
 });
-
-export interface IBaseResponseAPI {
-  isSuccess: boolean;
-  info?: string;
-}
-export interface IResponseAPI<T extends IApiEntity> extends IBaseResponseAPI {
-  data?: T;
-}
-export interface IEditableResponseAPI extends IBaseResponseAPI {
-  resultId: number;
-}
-
-export interface IEditAPI<T extends IApiEntity> {
-  createAsync: () => Promise<IEditableResponseAPI>;
-  updateAsync: (id: number, model: T) => Promise<IEditableResponseAPI>;
-  deleteAsync: (id: number) => Promise<IEditableResponseAPI>;
-}
-export interface IGetAPI<T extends IApiEntity> {
-  getByIdAsync: (id: number) => Promise<IResponseAPI<T>>;
-  getAllAsync: () => Promise<IResponseAPI<T[]>>;
-}
 
 export const baseGetAsync = async <T extends IApiEntity>(route: string): Promise<IResponseAPI<T>> => {
   const response = await instance.get<T>(route);

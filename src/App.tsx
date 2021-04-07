@@ -3,9 +3,9 @@
 import { Provider } from 'react-redux';
 import './App.css';
 import React from 'react';
-import { appStore } from './globalStore/appStore';
+import { appStore } from './common/store/app-store';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import NavBar from './components/Navbar';
+import NavBar from './common/components/Navbar';
 import { Index } from './pages/Index';
 import Accounts from './pages/Accounts';
 import Admin from './pages/Admin';

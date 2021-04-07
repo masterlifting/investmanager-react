@@ -1,9 +1,9 @@
 /** @format */
 
-import { companyAPI } from "../../../api/api-implements";
-import { ThunkType } from "../../../globalStore/appStore";
-import { ICompany } from "../../../types/app-entity-types";
-import { actions, CompanyActionType } from "./company-reducer";
+import { companyAPI } from '../../../api/api-implements';
+import { ThunkType } from '../../../common/types/common-types';
+import { ICompany } from '../types/company-interfaces';
+import { actions, CompanyActionType } from './company-reducer';
 
 export const fetchCompanies = (): ThunkType<CompanyActionType> => async dispatch => {
   const response = await companyAPI.getAPI.getAllAsync();

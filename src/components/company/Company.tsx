@@ -1,8 +1,8 @@
 /** @format */
 
-import { ICompany } from '../../types/app-entity-types';
 import { useDispatch } from 'react-redux';
-import { actions } from './companyStore/company-reducer';
+import { actions } from './store/company-reducer';
+import { ICompany } from './types/company-interfaces';
 
 export const Company: React.FC<ICompany> = company => {
   const dispatch = useDispatch();

@@ -1,9 +1,8 @@
 /** @format */
 
-import { IEditAPI } from '../../api/api-config';
-import { IApiEntity } from '../../api/api-types';
-import { IAppEntity, IMutableEntity } from '../../types/app-entity-types';
-import { ActionTypeCollector } from '../appStore';
+import { IApiEntity, IEditAPI } from '../../../api/api-interfaces';
+import { IAppEntity, IMutableEntity } from '../../types/common-interfaces';
+import { ActionTypeCreator } from '../../types/common-types';
 
 export type CrudStateType<T extends IMutableEntity> = {
   editingItem: T | null;
@@ -31,7 +30,7 @@ export const crudReducerCreator = (api: IEditAPI<IApiEntity>) => {
     delete: (id: number) => ({ type: 'crud/delete', id } as const),
   };
 
-  type ActionType = ActionTypeCollector<typeof actions>;
+  type ActionType = ActionTypeCreator<typeof actions>;
 
   const reducer = (state = initialState, action: ActionType) => {
     switch (action.type) {

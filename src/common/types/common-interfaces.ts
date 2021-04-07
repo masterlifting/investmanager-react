@@ -13,11 +13,3 @@ export interface IAppBaseBrokerReportModel extends IAppEntity {
   accountId: number;
   dateOperation: Date;
 }
-
-export interface ICompany extends IAppShortModel, IMutableEntity {
-  selected: boolean;
-}
-export interface IAccount extends IAppShortModel, IMutableEntity {
-  selected: boolean;
-  sum: number;
-}

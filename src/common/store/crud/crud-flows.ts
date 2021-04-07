@@ -1,14 +1,13 @@
 /** @format */
 
-import { ActionTypeCollector } from "./appStore";
-
+import { ActionTypeCreator } from '../../types/common-types';
 
 const additionalActions = {
   additionalFunc: () => ({
     type: 'additional',
   }),
 };
-type ActionType = ActionTypeCollector<typeof additionalActions>;
+type ActionType = ActionTypeCreator<typeof additionalActions>;
 
 // export const crudFlows = {
 //   company: crudReducerCreator(
