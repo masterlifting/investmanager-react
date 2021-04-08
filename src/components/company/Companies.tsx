@@ -8,8 +8,6 @@ import { fetchCompanies } from './store/company-thunks';
 import { companyActions } from './store/company-reducer';
 
 export const Companies: React.FC = () => {
-  console.log('render');
-
   const selectableStyle: CSSProperties = {
     cursor: 'pointer',
   };
@@ -32,8 +30,12 @@ export const Companies: React.FC = () => {
   }, [companies]);
 
   const cancelSelectableMode = () => {
-    dispatch(fetchCompanies());
+    dispatch(companyActions.clearSelectable());
     setSelectableMode(false);
+  };
+  const showSelectableCompanies = () => {
+    const visibledIds: number[] = companies.filter(x => x.selected).map(x => x.id);
+    dispatch(companyActions.setVisibleItems(visibledIds));
   };
   return (
     <div className='row py-1 px-3' style={{ overflowY: 'auto', height: '80vh' }}>
@@ -44,11 +46,11 @@ export const Companies: React.FC = () => {
               select
             </span>
           ) : (
-            <span className='col-3 col-md-1'>
+            <span className='col-6 col-md-2'>
               <div className='row'>
                 {isOk ? (
-                  <span style={selectableStyle} className='col-6 text-success' onClick={() => dispatch(companyActions.setSelectable())}>
-                    ok
+                  <span style={selectableStyle} className='col-6 text-success' onClick={() => showSelectableCompanies()}>
+                    selected
                   </span>
                 ) : (
                   <></>
@@ -62,9 +64,11 @@ export const Companies: React.FC = () => {
         </div>
         <div className='row'>
           <ul className='col-12'>
-            {companies.map(x => (
-              <Company key={x.id} {...{ company: x, isSelectable: isSelectableMode }} />
-            ))}
+            {companies
+              .filter(x => x.visibled)
+              .map(x => (
+                <Company key={x.id} {...{ company: x, isSelectable: isSelectableMode }} />
+              ))}
           </ul>
         </div>
       </div>

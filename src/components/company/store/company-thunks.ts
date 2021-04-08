@@ -12,6 +12,7 @@ export const fetchCompanies = (): ThunkType<CompanyActionType> => async dispatch
       id: x.id,
       name: x.name,
       selected: false,
+      visibled: true,
     }));
     dispatch(companyActions.setItems(companies));
   }

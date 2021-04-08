@@ -1,7 +1,7 @@
 /** @format */
 
-import { IApiEntity, IApiShortModel } from "../../../api/api-interfaces";
-import { IAppShortModel, IMutableEntity } from "../../../common/types/common-interfaces";
+import { IApiEntity, IApiShortModel } from '../../../api/api-interfaces';
+import { IAppShortModel, IMutableEntity } from '../../../common/types/common-interfaces';
 
 export interface IApiCompany extends IApiShortModel {
   dateSplit?: Date;
@@ -16,6 +16,7 @@ export interface IApiCompanySummary extends IApiEntity {
 
 export interface ICompany extends IAppShortModel, IMutableEntity {
   selected: boolean;
+  visibled: boolean;
 }
 export interface ICompanyMenu {
   id: number;
