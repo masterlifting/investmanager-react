@@ -1,29 +1,25 @@
 /** @format */
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { getCompanyMenu } from './store/company-selectors';
+import { ICompany } from './types/company-interfaces';
 
-import { ICompanyMenu } from './types/company-interfaces';
+export const CompanyMenu: React.FC<ICompany> = props => {
+  const companyMenu = useSelector(getCompanyMenu);
+  const [menu, setMenu] = useState(companyMenu);
 
-const companyMenu: ICompanyMenu[] = [
-  { id: 1, selected: false, name: 'Дополнительная информация' },
-  { id: 2, selected: false, name: 'Транзакции' },
-  { id: 3, selected: false, name: 'Рейтинг' },
-  { id: 4, selected: false, name: 'Рекомендация к покупке' },
-  { id: 5, selected: false, name: 'Рекомендация к продаже' },
-  { id: 6, selected: false, name: 'Индексы' },
-  { id: 7, selected: false, name: 'Отчеты' },
-  { id: 8, selected: false, name: 'Цены' },
-  { id: 9, selected: false, name: 'Дивиденды' },
-  { id: 10, selected: false, name: 'Редактировать' }
-];
+  const setSelectableMenu = (id: number, isSelected: boolean) => setMenu(isSelected ? menu.filter(x => x.id === id) : companyMenu);
 
-export const CompanyMenu: React.FC = () => {
   return (
     <ul className='offset-1 col-11'>
-      {companyMenu.map(x => (
-        <li key={x.id} className='row text-white company-menu-hover'>
+      {menu.map(x => (
+        <li key={x.id} className='row company-menu-hover'>
           <div className='col'>
-            <input type='checkbox' />
+            <input type='checkbox' onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSelectableMenu(x.id, e.currentTarget.checked)} />
             <span className='mx-1'></span>
-            <span onClick={() => {}}>{x.name}</span>
+            <span style={{ color: '#F2F2F2 !important', fontStyle: 'italic' }} onClick={() => {}}>
+              {x.name}
+            </span>
           </div>
         </li>
       ))}

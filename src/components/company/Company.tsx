@@ -23,19 +23,23 @@ export const Company: React.FC<CompanyProps> = props => {
         <div className='row'>
           <span className='col-1'>
             {props.isSelectable ? (
-              <input type={'checkbox'} checked={props.company.selected} onChange={() => dispatch(companyActions.changeSelectable(props.company.id))} />
+              <input
+                type={'checkbox'}
+                checked={props.company.selected}
+                onChange={() => dispatch(companyActions.changeSelectable(props.company.id))}
+              />
             ) : (
               <></>
             )}
           </span>
           <span className='col-3 col-md-1 text-secondary small'>{props.company.description}</span>
-          <span onClick={() => setIsMenu(!isMenu)} className='col-8 col-md-10 text-warning'>
+          <span onClick={() => setIsMenu(!isMenu)} className='col-8 col-md-10' style={{ color: '#F5DA81' }}>
             {props.company.name}
           </span>
         </div>
         {isMenu ? (
           <div className='row'>
-            <CompanyMenu />
+            <CompanyMenu {...props.company}/>
           </div>
         ) : (
           <></>
