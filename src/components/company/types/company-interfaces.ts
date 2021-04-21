@@ -22,4 +22,5 @@ export interface ICompanyMenu {
   id: number;
   name: string;
   selected: boolean;
+  visibled: boolean;
 }

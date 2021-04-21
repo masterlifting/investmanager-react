@@ -21,7 +21,7 @@ export const Companies: React.FC = () => {
   useEffect(() => {
     dispatch(fetchCompanies());
   }, [dispatch]);
-  
+
   useEffect(() => {
     if (companies.filter(x => x.selected).length > 0) {
       setIsOk(true);

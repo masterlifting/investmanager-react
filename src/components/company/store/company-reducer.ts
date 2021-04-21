@@ -1,7 +1,7 @@
 /** @format */
 
 import { ActionTypeCreator } from '../../../common/types/common-types';
-import { ICompany, ICompanyMenu } from '../types/company-interfaces';
+import { ICompany } from '../types/company-interfaces';
 
 export const companyActions = {
   setItems: (items: ICompany[]) => ({ type: 'company/setItems', items } as const),
@@ -43,33 +43,6 @@ export const companyReducer = (state: ICompany[] = [], action: CompanyActionType
       }
       return [...state];
     }
-    default:
-      return state;
-  }
-};
-
-const companyMenuInitialState: ICompanyMenu[] = [
-  { id: 1, selected: false, name: 'Дополнительная информация' },
-  { id: 2, selected: false, name: 'Транзакции' },
-  { id: 3, selected: false, name: 'Рейтинг' },
-  { id: 4, selected: false, name: 'Рекомендация к покупке' },
-  { id: 5, selected: false, name: 'Рекомендация к продаже' },
-  { id: 6, selected: false, name: 'Индексы' },
-  { id: 7, selected: false, name: 'Отчеты' },
-  { id: 8, selected: false, name: 'Цены' },
-  { id: 9, selected: false, name: 'Дивиденды' },
-  { id: 10, selected: false, name: 'Редактировать' },
-];
-
-export const companyMenuActions = {
-  getItems: () => ({ type: 'companyMenu/getItems' } as const),
-};
-export type CompanyMenuActionType = ActionTypeCreator<typeof companyMenuActions>;
-
-export const companyMenuReducer = (state = companyMenuInitialState, action: CompanyMenuActionType): ICompanyMenu[] => {
-  switch (action.type) {
-    case 'companyMenu/getItems':
-      return [...companyMenuInitialState];
     default:
       return state;
   }

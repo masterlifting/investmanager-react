@@ -37,13 +37,7 @@ export const Company: React.FC<CompanyProps> = props => {
             {props.company.name}
           </span>
         </div>
-        {isMenu ? (
-          <div className='row'>
-            <CompanyMenu {...props.company}/>
-          </div>
-        ) : (
-          <></>
-        )}
+        <div className='row'>{isMenu ? <CompanyMenu {...props.company} /> : <></>}</div>
       </div>
     </li>
   );
