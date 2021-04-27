@@ -1,6 +1,6 @@
 /** @format */
 
-import { ActionTypeCreator } from '../../../common/types/common-types';
+import { ActionTypeCreator } from '../../../../common/types/common-types';
 import { IAccount } from '../types/account-interfaces';
 
 export const accountActions = {

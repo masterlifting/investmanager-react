@@ -1,14 +1,8 @@
 /** @format */
 
-import { IApiAccount } from '../components/account/types/account-interfaces';
-import { IApiCompany, IApiCompanySummary } from '../components/company/types/company-interfaces';
-import { baseGetAsync, EditAPI, GetAPI } from './api-configuration';
-import { IBaseResponseAPI, IResponseAPI } from './api-interfaces';
-
-const endpoints = {
-  account: 'accounts/',
-  company: 'companies/',
-};
+import { AccountAPI } from '../components/account/account-api';
+import { CompanyAPI } from '../components/company/services/company-api';
+import { IBaseResponseAPI } from './api-interfaces';
 
 const apiTryHandlerAsync = async <TResult extends IBaseResponseAPI, TParam>(
   action: (args?: TParam) => Promise<TResult>,
@@ -30,7 +24,11 @@ const apiTryHandlerAsync = async <TResult extends IBaseResponseAPI, TParam>(
   const result: IBaseResponseAPI = { isSuccess: false };
   return result as TResult;
 };
-export const startApiProcessAsync = async <T extends IBaseResponseAPI, TParam>(action: (args?: TParam) => Promise<T>, dispatch: any, params?: TParam): Promise<T> => {
+export const startApiProcessAsync = async <T extends IBaseResponseAPI, TParam>(
+  action: (args?: TParam) => Promise<T>,
+  dispatch: any,
+  params?: TParam,
+): Promise<T> => {
   dispatch(setLoaderTemp('start'));
   const actionResult = await apiTryHandlerAsync(action, dispatch, params);
   dispatch(setLoaderTemp('stop'));
@@ -40,13 +38,7 @@ export const startApiProcessAsync = async <T extends IBaseResponseAPI, TParam>(a
 const showErrorTemp = (message: string) => {};
 const setLoaderTemp = (actionType: 'start' | 'stop') => {};
 
-export const accountAPI = {
-  getAPI: new GetAPI<IApiAccount>(endpoints.account),
-  editAPI: new EditAPI<IApiAccount>(endpoints.account),
-  getSumAsync: async (id: number): Promise<IResponseAPI<number>> => await baseGetAsync(`${endpoints.account}/${id}/summary/`),
-};
-export const companyAPI = {
-  getAPI: new GetAPI<IApiCompany>(endpoints.company),
-  editAPI: new EditAPI<IApiCompany>(endpoints.company),
-  getAdditionalAsync: async (id: number): Promise<IResponseAPI<IApiCompanySummary>> => await baseGetAsync(`${endpoints.company}/${id}/additional/`),
+export const API = {
+  account: new AccountAPI(),
+  company: new CompanyAPI(),
 };

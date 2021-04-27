@@ -1,9 +1,8 @@
 /** @format */
 
 import { CSSProperties } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getCompanies } from './company/store/company-selectors';
-import { companyActions } from './company/store/company-reducer';
+import { useDispatch } from 'react-redux';
+import { companyActions } from './company/services/store/company-reducer';
 
 export const Footer: React.FC = () => {
   const inputStyle: CSSProperties = {
@@ -16,15 +15,17 @@ export const Footer: React.FC = () => {
   };
 
   const dispatch = useDispatch();
-  const companies = useSelector(getCompanies);
 
-  const findCompanies = (phrase: string) => {
-    const findResult = companies.filter(x => x.name.toLowerCase().indexOf(phrase.toLocaleLowerCase()) >= 0);
-    if (findResult) {
-      const visibledIds = findResult.concat(companies.filter(x => x.selected)).map(x => x.id);
-      dispatch(companyActions.setVisibleItems(visibledIds));
-    }
-  };
+  // let companiesThrottled: null | ((phrase: string) => void) = null;
+  // const getCompaniesThrottled = (phrase: string) => {
+  //   if (companiesThrottled === null) {
+  //     companiesThrottled = (p: string) => {
+  //       _.debounce(() => {}, 2000);
+  //     };
+  //   }
+
+  //   companiesThrottled(phrase);
+  // };
 
   return (
     <div className='navbar bg-dark navbar-dark py-0' style={{ height: '5vh' }}>
@@ -35,7 +36,7 @@ export const Footer: React.FC = () => {
             style={inputStyle}
             placeholder='Введите название компании'
             autoComplete='off'
-            onInput={(e: React.SyntheticEvent<HTMLInputElement>) => findCompanies(e.currentTarget.value)}
+            onInput={(e: React.SyntheticEvent<HTMLInputElement>) => dispatch(companyActions.setFindPhrase(e.currentTarget.value))}
           />
         </div>
         <div className='offset-2 col-2 offset-md-7 col-md-1 text-center'>

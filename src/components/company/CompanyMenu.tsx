@@ -1,6 +1,6 @@
 /** @format */
 import { useState } from 'react';
-import { ICompany, ICompanyMenu } from './types/company-interfaces';
+import { ICompany, ICompanyMenu } from './services/types/company-interfaces';
 import { CompanyMenuItem } from './CompanyMenuItem';
 
 export const CompanyMenu: React.FC<ICompany> = props => {
@@ -29,7 +29,7 @@ export const CompanyMenu: React.FC<ICompany> = props => {
       {menuList.map(x => (
         <li key={x.id} className='row company-menu-hover'>
           <div className='row'>
-            <div className='col'>
+            <div className='offset-md-2 col-md-10 col'>
               <input type='checkbox' onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSelectableMenu(x.id, e.currentTarget.checked)} />
               <span className='mx-1'></span>
               <span style={{ color: '#F2F2F2 !important', fontStyle: 'italic' }} onClick={() => showMenuItem(x.id)}>
@@ -37,7 +37,9 @@ export const CompanyMenu: React.FC<ICompany> = props => {
               </span>
             </div>
           </div>
-          <div className='row'>{x.visibled ? <CompanyMenuItem {...{ company: props, menuItem: x }} /> : <></>}</div>
+          <div className='row'>
+            <div className='offset-md-3 col-md-9 col'>{x.visibled ? <CompanyMenuItem {...{ companyId: props.id, menuItemId: x.id }} /> : <></>}</div>
+          </div>
         </li>
       ))}
     </ul>

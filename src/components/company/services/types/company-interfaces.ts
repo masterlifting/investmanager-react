@@ -1,14 +1,14 @@
 /** @format */
 
-import { IApiEntity, IApiShortModel } from '../../../api/api-interfaces';
-import { IAppShortModel, IMutableEntity } from '../../../common/types/common-interfaces';
+import { IApiEntity, IApiShortModel } from '../../../../api/api-interfaces';
+import { IAppShortModel, IMutableEntity } from '../../../../common/types/common-interfaces';
 
 export interface IApiCompany extends IApiShortModel {
   dateSplit?: Date;
   industryId: number;
   sectorId: number;
 }
-export interface IApiCompanySummary extends IApiEntity {
+export interface IApiCompanyAdditional extends IApiEntity {
   sectorName: string;
   industryName: string;
   currency: string;

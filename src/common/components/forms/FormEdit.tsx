@@ -1,7 +1,7 @@
 /** @format */
 
 import React from 'react';
-import { ICompany } from '../../../components/company/types/company-interfaces';
+import { ICompany } from '../../../components/company/services/types/company-interfaces';
 
 export type FormElementType<TForm> = {
   title: string;

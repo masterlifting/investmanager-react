@@ -1,27 +1,10 @@
 /** @format */
 
-export interface IBaseResponseAPI {
-  isSuccess: boolean;
-  info?: string;
-}
-export interface IResponseAPI<T extends IApiEntity> extends IBaseResponseAPI {
-  data?: T;
-}
-export interface IEditableResponseAPI extends IBaseResponseAPI {
-  resultId: number;
-}
-
-export interface IEditAPI<T extends IApiEntity> {
-  createAsync: () => Promise<IEditableResponseAPI>;
-  updateAsync: (id: number, model: T) => Promise<IEditableResponseAPI>;
-  deleteAsync: (id: number) => Promise<IEditableResponseAPI>;
-}
-export interface IGetAPI<T extends IApiEntity> {
-  getByIdAsync: (id: number) => Promise<IResponseAPI<T>>;
-  getAllAsync: () => Promise<IResponseAPI<T[]>>;
-}
-
 export interface IApiEntity {}
+export interface IApiPagination<T extends IApiEntity> {
+  items: T[];
+  totalCount: number;
+}
 export interface IApiShortModel extends IApiEntity {
   id: number;
   name: string;
@@ -33,7 +16,16 @@ export interface IApiBaseBrokerReportModel extends IApiEntity {
   dateOperation: Date;
 }
 
-
+export interface IBaseResponseAPI {
+  isSuccess: boolean;
+  info?: string;
+}
+export interface IResponseAPI<T extends IApiEntity> extends IBaseResponseAPI {
+  data?: T;
+}
+export interface IEditableResponseAPI extends IBaseResponseAPI {
+  resultId: number;
+}
 
 //todo:распределить
 export interface IApiIsin extends IApiShortModel {
