@@ -1,6 +1,7 @@
 /** @format */
 
 export interface IApiEntity {}
+
 export interface IApiPagination<T extends IApiEntity> {
   items: T[];
   totalCount: number;

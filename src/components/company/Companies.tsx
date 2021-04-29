@@ -3,7 +3,7 @@
 import React, { CSSProperties, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Company } from './Company';
-import { getCompanies } from './services/store/company-selectors';
+import { getCompanies, getCompanyPagination, getCompanyFilter } from './services/store/company-selectors';
 import { fetchCompanies } from './services/store/company-thunks';
 import { companyActions } from './services/store/company-reducer';
 import { Paginator } from '../../common/components/Paginator';
@@ -14,33 +14,31 @@ export const Companies: React.FC = () => {
   };
 
   const dispatch = useDispatch();
-  const data = useSelector(getCompanies);
-
-  const page = data.pagination.page;
-  const limit = data.pagination.limit;
-  const phrase = data.phrase;
+  const companies = useSelector(getCompanies);
+  const pagination = useSelector(getCompanyPagination);
+  const filter = useSelector(getCompanyFilter);
 
   useEffect(() => {
-    dispatch(fetchCompanies(page, limit, phrase));
-  }, [dispatch, phrase]);
+    dispatch(fetchCompanies(pagination.page, pagination.limit, filter.phrase));
+  }, [dispatch, pagination.page, pagination.limit, filter.phrase]);
 
   const [isSelectableMode, setSelectableMode] = useState(false);
   const [isOk, setIsOk] = useState(false);
 
   useEffect(() => {
-    if (data.items.filter(x => x.selected).length > 0) {
+    if (companies.filter(x => x.selected).length > 0) {
       setIsOk(true);
     } else {
       setIsOk(false);
     }
-  }, [data.items]);
+  }, [companies]);
 
   const cancelSelectableMode = () => {
     dispatch(companyActions.clearSelectable());
     setSelectableMode(false);
   };
   const showSelectableCompanies = () => {
-    const visibledIds: number[] = data.items.filter(x => x.selected).map(x => x.id);
+    const visibledIds: number[] = companies.filter(x => x.selected).map(x => x.id);
     dispatch(companyActions.setVisibleItems(visibledIds));
   };
   return (
@@ -71,9 +69,9 @@ export const Companies: React.FC = () => {
           </div>
           <div className='row'>
             <ul className='col-12'>
-              {data.items
+              {companies
                 .filter(x => x.visibled)
-                .sort(function (x, y) {
+                .sort(function (x) {
                   return x.selected === true ? -1 : 1;
                 })
                 .map(x => (
@@ -83,7 +81,7 @@ export const Companies: React.FC = () => {
           </div>
         </div>
       </div>
-      <Paginator {...data.pagination} />
+      <Paginator pagination={pagination} filter={filter} />
     </>
   );
 };

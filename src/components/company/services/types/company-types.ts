@@ -7,6 +7,5 @@ export type CompanyProps = {
   isSelectable: boolean;
 };
 export type CompanyMenuItemProps = {
-  menuItemId: number;
-  companyId: number;
+  company: ICompany;
 };

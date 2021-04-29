@@ -1,6 +1,7 @@
 /** @format */
 
 import { AccountAPI } from '../components/account/account-api';
+import { AuthAPI } from '../components/authentication/service/auth-api';
 import { CompanyAPI } from '../components/company/services/company-api';
 import { IBaseResponseAPI } from './api-interfaces';
 
@@ -39,6 +40,7 @@ const showErrorTemp = (message: string) => {};
 const setLoaderTemp = (actionType: 'start' | 'stop') => {};
 
 export const API = {
+  auth: new AuthAPI(),
   account: new AccountAPI(),
   company: new CompanyAPI(),
 };

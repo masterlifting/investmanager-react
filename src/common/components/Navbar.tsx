@@ -32,8 +32,8 @@ function NavBar() {
             <NavLink className='nav-link' to='/admin'>
               Админ панель
             </NavLink>
-            <NavLink className='nav-link disabled' to='/' aria-disabled='true'>
-              Выйти из andreypestunov
+            <NavLink className='nav-link' to='/login' aria-disabled='true'>
+              Login
             </NavLink>
           </div>
         </div>

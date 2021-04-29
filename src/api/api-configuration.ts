@@ -1,32 +1,56 @@
 /** @format */
 
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import { IApiEntity, IEditableResponseAPI, IResponseAPI } from './api-interfaces';
+const serverUrl = 'https://localhost:44379/';
 
 export const instance = axios.create({
-  baseURL: 'https://localhost:44379/',
+  baseURL: serverUrl,
+});
+export const instanceWithCredentials = axios.create({
+  baseURL: serverUrl,
+  withCredentials: true,
 });
 
-const baseEditResult = (response: AxiosResponse<IEditableResponseAPI>): IEditableResponseAPI => ({
+const getEditableResult = (response: AxiosResponse<IEditableResponseAPI>): IEditableResponseAPI => ({
   isSuccess: response.status === 200,
   info: response.data.info,
   resultId: response.data.resultId,
 });
 
-export const ApiCrud = {
-  getAsync: async <T extends IApiEntity>(route: string): Promise<IResponseAPI<T>> => {
-    const response = await instance.get<T>(route);
+export class AxiosAuthHeader {
+  private key = 'jwttoken';
+  private authHeader = 'Authorisation';
+
+  setAuthHeader = (token: string) => {
+    localStorage.setItem(this.key, token);
+    axios.defaults.headers[this.authHeader] = token;
+  };
+  removeToken = () => {
+    localStorage.removeItem(this.key);
+    delete axios.defaults.headers[this.authHeader];
+  };
+}
+class RestApi {
+  private axiosInstance: AxiosInstance;
+  constructor(axiosInstance: AxiosInstance) {
+    this.axiosInstance = axiosInstance;
+  }
+  getAsync = async <T extends IApiEntity>(route: string): Promise<IResponseAPI<T>> => {
+    const response = await this.axiosInstance.get<T>(route);
     const result: IResponseAPI<T> = { isSuccess: false };
     if (response.status === 200) {
       result.isSuccess = true;
       result.data = response.data;
     }
     return result;
-  },
-  createAsync: async <T extends IApiEntity>(route: string, model: T): Promise<IEditableResponseAPI> =>
-    baseEditResult(await instance.post<IEditableResponseAPI>(route, model)),
-  updateAsync: async <T extends IApiEntity>(route: string, id: number, model: T): Promise<IEditableResponseAPI> =>
-    baseEditResult(await instance.put<IEditableResponseAPI>(`${route}/${id}`, model)),
-  deleteAsync: async (route: string, id: number): Promise<IEditableResponseAPI> =>
-    baseEditResult(await instance.delete<IEditableResponseAPI>(`${route}/${id}`))
-};
+  };
+  postAsync = async <T extends IApiEntity>(route: string, model: T): Promise<IEditableResponseAPI> =>
+    getEditableResult(await this.axiosInstance.post<IEditableResponseAPI>(route, model));
+  putAsync = async <T extends IApiEntity>(route: string, id: number, model: T): Promise<IEditableResponseAPI> =>
+    getEditableResult(await this.axiosInstance.put<IEditableResponseAPI>(`${route}/${id}`, model));
+  deleteAsync = async (route: string, id: number): Promise<IEditableResponseAPI> =>
+    getEditableResult(await this.axiosInstance.delete<IEditableResponseAPI>(`${route}/${id}`));
+}
+export const apiWithoutCred = new RestApi(instance);
+export const apiWithCred = new RestApi(instanceWithCredentials);

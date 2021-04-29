@@ -4,12 +4,12 @@ import { applyMiddleware, combineReducers, createStore } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { companyReducer } from '../../components/company/services/store/company-reducer';
 import { accountReducer } from '../../components/account/services/store/account-reducer';
+import { authReducer } from '../../components/authentication/service/store/auth-reducer';
 
 export const rootReducer = combineReducers({
+  user: authReducer,
   account: accountReducer,
   company: companyReducer,
-  //company: crudFlows.company,
-  // account: crudFlows.account,
 });
 // @ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

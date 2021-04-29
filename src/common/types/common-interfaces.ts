@@ -7,13 +7,13 @@ export interface IPagination {
   page: number; // порядковый номер порции
   pagePortionSize: number; // размер порции полученных страниц
 }
-
-export interface IAppPagination<T extends IAppEntity> {
+export interface IFilter {
+  phrase: string | null;
+}
+export interface ICollectionBehavior<T extends IAppEntity> {
   items: T[];
   pagination: IPagination;
-}
-export interface IFilter<T> extends IAppPagination<T> {
-  phrase: string | null;
+  filter: IFilter;
 }
 export interface IMutableEntity extends IAppEntity {
   id: number;

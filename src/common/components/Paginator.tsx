@@ -1,27 +1,28 @@
 /** @format */
 
 import React, { CSSProperties, useState } from 'react';
-import { IPagination } from '../types/common-interfaces';
-import { useDispatch, useSelector } from 'react-redux';
+import { IFilter, IPagination } from '../types/common-interfaces';
+import { useDispatch } from 'react-redux';
 import { fetchCompanies } from '../../components/company/services/store/company-thunks';
 import { companyActions } from '../../components/company/services/store/company-reducer';
-import { getPhrase } from '../services/common-selectors';
-
-export const Paginator: React.FC<IPagination> = props => {
-  const phrase = useSelector(getPhrase);
+type PaginatorType = {
+  pagination: IPagination;
+  filter?: IFilter;
+};
+export const Paginator: React.FC<PaginatorType> = props => {
   const dipatch = useDispatch();
   const [portionNumber, setPortionNumber] = useState(1);
 
   //pages configuration
-  const pagesCount: number = Math.ceil(props.total / props.limit);
+  const pagesCount: number = Math.ceil(props.pagination.total / props.pagination.limit);
   const pages: number[] = [];
   for (let i = 1; i <= pagesCount; i++) {
     pages.push(i);
   }
   //page portions configureation
-  const portionCount = Math.ceil(pagesCount / props.pagePortionSize);
-  const leftPortionNumber = (portionNumber - 1) * props.pagePortionSize + 1;
-  const rightPortionNumber = portionNumber * props.pagePortionSize;
+  const portionCount = Math.ceil(pagesCount / props.pagination.pagePortionSize);
+  const leftPortionNumber = (portionNumber - 1) * props.pagination.pagePortionSize + 1;
+  const rightPortionNumber = portionNumber * props.pagination.pagePortionSize;
 
   //styles
   const portionStyle: CSSProperties = { cursor: 'pointer', color: 'gray' };
@@ -41,9 +42,9 @@ export const Paginator: React.FC<IPagination> = props => {
           .map(x => (
             <span
               key={x}
-              style={x === props.page ? selectedPageStyle : unselectedPageStyle}
+              style={x === props.pagination.page ? selectedPageStyle : unselectedPageStyle}
               onClick={() => {
-                dipatch(fetchCompanies(x, props.limit, phrase));
+                dipatch(fetchCompanies(x, props.pagination.limit, props.filter?.phrase));
                 dipatch(companyActions.setPaginationPage(x));
               }}
             >

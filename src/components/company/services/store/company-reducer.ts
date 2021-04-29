@@ -1,8 +1,8 @@
 /** @format */
 
 import { ActionTypeCreator } from '../../../../common/types/common-types';
-import { ICompany } from '../types/company-interfaces';
-import { IFilter } from '../../../../common/types/common-interfaces';
+import { IAppCompanyAdditional, ICompany } from '../types/company-interfaces';
+import { ICollectionBehavior } from '../../../../common/types/common-interfaces';
 
 export const companyActions = {
   setPaginationTotal: (totalCount: number) => ({ type: 'company/setPaginationTotal', totalCount } as const),
@@ -12,9 +12,10 @@ export const companyActions = {
   setVisibleItems: (ids: number[]) => ({ type: 'company/setVisibleItems', ids } as const),
   changeSelectable: (id: number) => ({ type: 'company/changeSelectable', id } as const),
   clearSelectable: () => ({ type: 'company/clearSelectable' } as const),
+  setAdditionalInfo: (id: number, info: IAppCompanyAdditional) => ({ type: 'company/setAdditionalInfo', id, info } as const),
 };
 export type CompanyActionType = ActionTypeCreator<typeof companyActions>;
-const initialState: IFilter<ICompany> = {
+const initialState: ICollectionBehavior<ICompany> = {
   items: [],
   pagination: {
     limit: 11,
@@ -22,10 +23,12 @@ const initialState: IFilter<ICompany> = {
     total: 0,
     pagePortionSize: 5,
   },
-  phrase: null,
+  filter: {
+    phrase: null,
+  },
 };
 
-export const companyReducer = (state = initialState, action: CompanyActionType): IFilter<ICompany> => {
+export const companyReducer = (state = initialState, action: CompanyActionType): ICollectionBehavior<ICompany> => {
   switch (action.type) {
     case 'company/setItems': {
       return { ...state, items: action.items.concat(state.items.filter(x => x.selected)) };
@@ -65,7 +68,11 @@ export const companyReducer = (state = initialState, action: CompanyActionType):
       return { ...state, pagination: { ...state.pagination, page: action.page } };
     }
     case 'company/setFindPhrase': {
-      return { ...state, phrase: action.phrase };
+      return { ...state, filter: { ...state.filter, phrase: action.phrase } };
+    }
+    case 'company/setAdditionalInfo': {
+      state.items.forEach(x => (x.id === action.id ? (x.additionalInfo = action.info) : x));
+      return { ...state, items: [...state.items] };
     }
     default:
       return state;
