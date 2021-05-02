@@ -1,4 +1,7 @@
 /** @format */
+
+import { IBaseResponseAPI } from '../../../../api/api-interfaces';
+
 //API
 export interface IApiLogin {
   email: string;
@@ -10,9 +13,9 @@ export interface IApiRegister {
   passwordConfirm: string;
 }
 //APP
-export interface IAuthResult {
-  token: string;
-  expiry: Date;
+export interface IAuthResult extends IBaseResponseAPI {
+  token?: string;
+  expiry?: Date;
 }
 export interface ITokenResult {
   isSuccess: boolean;
@@ -29,4 +32,8 @@ export interface ILogin extends IApiLogin {
 export interface IRegister extends IApiRegister {
   withError: boolean;
   errors: string[];
+}
+export interface IAuth {
+  user: IUser;
+  apiErrors: string[];
 }

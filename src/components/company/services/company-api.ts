@@ -9,7 +9,7 @@ export class CompanyAPI {
   getCompaniesShortAsync = async (): Promise<IResponseAPI<IApiShortModel[]>> => await apiWithoutCred.getAsync(this.controller);
   getCompanyAsync = async (id: number): Promise<IResponseAPI<IApiCompany>> => await apiWithoutCred.getAsync(`${this.controller}/${id}`);
   getAdditionalAsync = async (id: number): Promise<IResponseAPI<IApiCompanyAdditional>> =>
-    await apiWithoutCred.getAsync(`${this.controller}/${id}/additional/`);
+    await apiWithoutCred.getAsync(`${this.controller}/${id}/additional`);
   getByPaginationAsync = async (page: number, limit: number, phrase: string | null): Promise<IResponseAPI<IApiPagination<IApiCompany>>> => {
     let queryString = `${this.controller}/react?page=${page}&limit=${limit}`;
     if (phrase !== null) {

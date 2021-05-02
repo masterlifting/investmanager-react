@@ -19,6 +19,7 @@ export interface IMutableEntity extends IAppEntity {
   id: number;
 }
 export interface IAppShortModel extends IAppEntity {
+  id: number;
   name: string;
   description?: string;
 }

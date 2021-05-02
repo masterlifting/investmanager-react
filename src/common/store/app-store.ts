@@ -7,7 +7,7 @@ import { accountReducer } from '../../components/account/services/store/account-
 import { authReducer } from '../../components/authentication/service/store/auth-reducer';
 
 export const rootReducer = combineReducers({
-  user: authReducer,
+  auth: authReducer,
   account: accountReducer,
   company: companyReducer,
 });
