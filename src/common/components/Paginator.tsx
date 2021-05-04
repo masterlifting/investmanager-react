@@ -34,7 +34,7 @@ export const Paginator: React.FC<PaginatorType> = props => {
       <div className='col-12 text-center'>
         {portionNumber > 1 && (
           <span style={portionStyle} className='mr-2' onClick={() => setPortionNumber(portionNumber - 1)}>
-            prev
+            назад
           </span>
         )}
         {pages
@@ -45,7 +45,7 @@ export const Paginator: React.FC<PaginatorType> = props => {
               style={x === props.pagination.page ? selectedPageStyle : unselectedPageStyle}
               onClick={() => {
                 dipatch(fetchCompanies(x, props.pagination.limit, props.filter?.phrase));
-                dipatch(companyActions.setPaginationPage(x));
+                dipatch(companyActions.setCurrentItemsPage(x));
               }}
             >
               {x}
@@ -53,7 +53,7 @@ export const Paginator: React.FC<PaginatorType> = props => {
           ))}
         {portionCount > portionNumber && (
           <span style={portionStyle} className='ml-2' onClick={() => setPortionNumber(portionNumber + 1)}>
-            next
+            вперед
           </span>
         )}
       </div>

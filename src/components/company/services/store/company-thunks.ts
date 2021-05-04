@@ -19,10 +19,7 @@ export const fetchCompanies = (page: number, limit: number, phrase: string | nul
     }));
 
     dispatch(companyActions.setItems(companies));
-
-    if (page === 1) {
-      dispatch(companyActions.setPaginationTotal(response.data!.totalCount));
-    }
+    dispatch(companyActions.setItemsTotalCount(response.data!.totalCount));
   }
 };
 export const fetchCompanyAdditionalInfo = (companyId: number): ThunkType<CompanyActionType> => async dispatch => {

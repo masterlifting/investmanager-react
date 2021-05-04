@@ -5,10 +5,10 @@ import { IAppCompanyAdditional, ICompany } from '../types/company-interfaces';
 import { ICollectionBehavior } from '../../../../common/types/common-interfaces';
 
 export const companyActions = {
-  setPaginationTotal: (totalCount: number) => ({ type: 'company/setPaginationTotal', totalCount } as const),
-  setPaginationPage: (page: number) => ({ type: 'company/setPaginationPage', page } as const),
-  setFindPhrase: (phrase: string | null) => ({ type: 'company/setFindPhrase', phrase } as const),
   setItems: (items: ICompany[]) => ({ type: 'company/setItems', items } as const),
+  setItemsTotalCount: (totalCount: number) => ({ type: 'company/setTotalItemsCount', totalCount } as const),
+  setCurrentItemsPage: (page: number) => ({ type: 'company/setCurrentItemsPage', page } as const),
+  setFindingPhrase: (phrase: string | null) => ({ type: 'company/setFindingPhrase', phrase } as const),
   setVisibleItems: (ids: number[]) => ({ type: 'company/setVisibleItems', ids } as const),
   changeSelectable: (id: number) => ({ type: 'company/changeSelectable', id } as const),
   clearSelectable: () => ({ type: 'company/clearSelectable' } as const),
@@ -61,13 +61,13 @@ export const companyReducer = (state = initialState, action: CompanyActionType):
       }
       return { ...state, items: [...state.items] };
     }
-    case 'company/setPaginationTotal': {
+    case 'company/setTotalItemsCount': {
       return { ...state, pagination: { ...state.pagination, total: action.totalCount } };
     }
-    case 'company/setPaginationPage': {
-      return { ...state, pagination: { ...state.pagination, page: action.page } };
+    case 'company/setCurrentItemsPage': {
+      return state.pagination.page !== action.page ? { ...state, pagination: { ...state.pagination, page: action.page } } : { ...state };
     }
-    case 'company/setFindPhrase': {
+    case 'company/setFindingPhrase': {
       return { ...state, filter: { ...state.filter, phrase: action.phrase } };
     }
     case 'company/setAdditionalInfo': {

@@ -25,6 +25,11 @@ code {
   cursor: pointer;
   border-bottom: solid 0.2px grey;
 }
+.item-hover:hover {
+  cursor: pointer;
+  color: aqua;
+  font-weight: bolder;
+}
 .input-text {
   background-color: inherit;
   width: 100%;

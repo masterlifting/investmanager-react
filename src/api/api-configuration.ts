@@ -8,9 +8,6 @@ const serverUrl = 'https://localhost:44379/';
 
 const instance = axios.create({
   baseURL: serverUrl,
-});
-const instanceWithCredentials = axios.create({
-  baseURL: serverUrl,
   withCredentials: true,
 });
 
@@ -46,7 +43,7 @@ class AuthApi {
     this.axiosInstance = axiosInstance;
   }
   private key = 'jwttoken';
-  private authHeader = 'Authorisation';
+  private authHeader = 'Authorization';
 
   private getBaseAuthAsync = async <T extends IApiAuth>(route: string, model: T): Promise<IAuthResult> => {
     const response = await this.axiosInstance.post<T, AxiosResponse<IAuthResult>>(route, model);
@@ -68,14 +65,13 @@ class AuthApi {
   registerAsync = async (route: string, model: IApiRegister): Promise<IAuthResult> => this.getBaseAuthAsync(route, model);
   setAuthHeader = (token: string) => {
     localStorage.setItem(this.key, token);
-    axios.defaults.headers[this.authHeader] = token;
+    this.axiosInstance.defaults.headers.common[this.authHeader] = token;
   };
   removeToken = () => {
     localStorage.removeItem(this.key);
-    delete axios.defaults.headers[this.authHeader];
+    delete this.axiosInstance.defaults.headers.common[this.authHeader];
   };
 }
 
 export const authApi = new AuthApi(instance);
-export const apiWithoutCred = new RestApi(instance);
-export const apiWithCred = new RestApi(instanceWithCredentials);
+export const restApi = new RestApi(instance);

@@ -42,46 +42,46 @@ export const Companies: React.FC = () => {
     dispatch(companyActions.setVisibleItems(visibledIds));
   };
   return (
-    <>
-      <div className='row py-1 px-3' style={{ overflowY: 'auto', height: '77.2vh' }}>
-        <div className='offset-md-3 col-md-6 col'>
-          <div className='row mb-1'>
-            {!isSelectableMode ? (
-              <span style={selectableStyle} className='col-3 col-md-1 text-primary' onClick={() => setSelectableMode(true)}>
-                select
-              </span>
-            ) : (
-              <span className='col-6 col-md-2'>
-                <div className='row'>
-                  {isOk ? (
-                    <span style={selectableStyle} className='col-6 text-success' onClick={() => showSelectableCompanies()}>
-                      selected
-                    </span>
-                  ) : (
-                    <></>
-                  )}
-                  <span style={selectableStyle} className='col-6 text-danger' onClick={() => cancelSelectableMode()}>
-                    cancel
+    <div className='row px-3' style={{ overflowY: 'auto', height: '85%' }}>
+      <div className='offset-md-3 col-md-6 col'>
+        <div className='row pt-2'>
+          {!isSelectableMode ? (
+            <span style={selectableStyle} className='col-3 col-md-1 text-primary' onClick={() => setSelectableMode(true)}>
+              выбрать
+            </span>
+          ) : (
+            <span className='col-6 col-md-3'>
+              <div className='row'>
+                {isOk ? (
+                  <span style={selectableStyle} className='col-6 text-success' onClick={() => showSelectableCompanies()}>
+                    выбранные
                   </span>
-                </div>
-              </span>
-            )}
-          </div>
-          <div className='row'>
-            <ul className='col-12'>
-              {companies
-                .filter(x => x.visibled)
-                .sort(function (x) {
-                  return x.selected === true ? -1 : 1;
-                })
-                .map(x => (
-                  <Company key={x.id} {...{ company: x, isSelectable: isSelectableMode }} />
-                ))}
-            </ul>
-          </div>
+                ) : (
+                  <></>
+                )}
+                <span style={selectableStyle} className='col-6 text-danger' onClick={() => cancelSelectableMode()}>
+                  сбросить
+                </span>
+              </div>
+            </span>
+          )}
+        </div>
+        <div className='row'>
+          <ul className='col-12'>
+            {companies
+              .filter(x => x.visibled)
+              .sort(function (x) {
+                return x.selected === true ? -1 : 1;
+              })
+              .map(x => (
+                <Company key={x.id} {...{ company: x, isSelectable: isSelectableMode }} />
+              ))}
+          </ul>
         </div>
       </div>
-      <Paginator pagination={pagination} filter={filter} />
-    </>
+      <div className='col-12 align-self-end pb-2'>
+        <Paginator pagination={pagination} filter={filter} />
+      </div>
+    </div>
   );
 };

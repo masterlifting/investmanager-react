@@ -42,7 +42,7 @@ export const Login: React.FC = () => {
             <input
               className='input-text'
               type='email'
-              placeholder='email'
+              placeholder='введите email'
               autoComplete='off'
               value={email}
               onInput={(e: React.SyntheticEvent<HTMLInputElement>) => {
@@ -57,7 +57,7 @@ export const Login: React.FC = () => {
             <input
               className='input-text'
               type='password'
-              placeholder='password'
+              placeholder='введите пароль'
               autoComplete='off'
               value={password}
               onInput={(e: React.SyntheticEvent<HTMLInputElement>) => {
@@ -70,7 +70,7 @@ export const Login: React.FC = () => {
         <div className='row mt-4'>
           <div className='col text-center'>
             <button className='btn btn-sm btn-light w-50' disabled={isDisabled} onClick={() => authenticate()}>
-              login
+              Войти
             </button>
           </div>
         </div>

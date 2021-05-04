@@ -5,9 +5,9 @@ import { Board } from '../components/Board';
 import { Companies } from '../components/company/Companies';
 import { Footer } from '../components/Footer';
 
-export const Index: React.FC = () => {
+export const Main: React.FC = () => {
   return (
-    <div>
+    <div style={{ height: '95vh' }}>
       <Board />
       <Companies />
       <Footer />

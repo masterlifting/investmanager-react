@@ -6,7 +6,7 @@ import React from 'react';
 import { appStore } from './common/store/app-store';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import NavBar from './common/components/Navbar';
-import { Index } from './pages/Index';
+import { Main } from './pages/Main';
 import Accounts from './pages/Accounts';
 import Admin from './pages/Admin';
 import { Login } from './components/authentication/Login';
@@ -18,7 +18,7 @@ const App: React.FC = () => (
     <BrowserRouter>
       <NavBar />
       <Switch>
-        <Route render={() => <Index />} path='/' exact />
+        <Route render={() => <Main />} path='/' exact />
         <Route render={() => <Accounts />} path='/accounts' />
         <Route render={() => <Admin />} path='/admin' />
         <Route render={() => <Login />} path='/login' />

@@ -44,7 +44,7 @@ export const Register: React.FC = () => {
             <input
               className='input-text'
               type='email'
-              placeholder='email'
+              placeholder='введите email'
               autoComplete='off'
               value={email}
               onInput={(e: React.SyntheticEvent<HTMLInputElement>) => {
@@ -59,7 +59,7 @@ export const Register: React.FC = () => {
             <input
               className='input-text'
               type='password'
-              placeholder='password'
+              placeholder='введите пароль'
               autoComplete='off'
               value={password}
               onInput={(e: React.SyntheticEvent<HTMLInputElement>) => {
@@ -74,7 +74,7 @@ export const Register: React.FC = () => {
             <input
               className='input-text'
               type='password'
-              placeholder='confirm password'
+              placeholder='подтвердите пароль'
               autoComplete='off'
               value={passwordConfirmed}
               onInput={(e: React.SyntheticEvent<HTMLInputElement>) => {
@@ -86,8 +86,8 @@ export const Register: React.FC = () => {
         </div>
         <div className='row mt-4'>
           <div className='col text-center'>
-            <button className='btn btn-sm btn-light w-50' disabled={isDisabled} onClick={() => authenticate()}>
-              Register
+            <button className='btn btn-sm btn-light w-75' disabled={isDisabled} onClick={() => authenticate()}>
+              Зарегистрироваться
             </button>
           </div>
         </div>

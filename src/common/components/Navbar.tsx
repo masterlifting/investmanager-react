@@ -8,7 +8,7 @@ function NavBar() {
     <nav className='navbar bg-dark navbar-dark navbar-expand-md py-0' style={{ height: '5vh' }}>
       <div className='container-fluid'>
         <NavLink className='navbar-brand py-0 text-muted' style={{ fontSize: '1rem' }} to='/'>
-          go to Blazor
+          go to blazor
         </NavLink>
         <button
           className='navbar-toggler'
@@ -28,10 +28,10 @@ function NavBar() {
               Главная
             </NavLink>
             <NavLink className='nav-link' to='/accounts'>
-              Инфо по счетам
+              Счета
             </NavLink>
             <NavLink className='nav-link' to='/admin'>
-              Админ панель
+              Администратор
             </NavLink>
             <AuthDisplay />
           </div>

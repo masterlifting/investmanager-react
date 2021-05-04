@@ -7,22 +7,18 @@ import { getUser } from './service/store/auth-selectors';
 
 export const AuthDisplay: React.FC = () => {
   const user = useSelector(getUser);
-  if (user.isAuth) {
-    return (
-      <NavLink className='nav-link' to='/logout'>
-        {user.name}/Logout
+  return user.isAuth ? (
+    <NavLink className='nav-link' to='/logout'>
+      {user.name}(выйти)
+    </NavLink>
+  ) : (
+    <>
+      <NavLink className='nav-link' to='/login'>
+        Войти
       </NavLink>
-    );
-  } else {
-    return (
-      <>
-        <NavLink className='nav-link' to='/login'>
-          Login
-        </NavLink>
-        <NavLink className='nav-link' to='/register'>
-          Regiter
-        </NavLink>
-      </>
-    );
-  }
+      <NavLink className='nav-link' to='/register'>
+        Регистрация
+      </NavLink>
+    </>
+  );
 };
