@@ -1,6 +1,7 @@
 /** @format */
 
 import { NavLink } from 'react-router-dom';
+import { AuthDisplay } from '../../components/authentication/AuthDisplay';
 
 function NavBar() {
   return (
@@ -32,9 +33,7 @@ function NavBar() {
             <NavLink className='nav-link' to='/admin'>
               Админ панель
             </NavLink>
-            <NavLink className='nav-link' to='/login' aria-disabled='true'>
-              Login
-            </NavLink>
+            <AuthDisplay />
           </div>
         </div>
       </div>

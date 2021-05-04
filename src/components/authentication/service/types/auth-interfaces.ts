@@ -3,13 +3,12 @@
 import { IBaseResponseAPI } from '../../../../api/api-interfaces';
 
 //API
-export interface IApiLogin {
+export interface IApiAuth {
   email: string;
   password: string;
 }
-export interface IApiRegister {
-  email: string;
-  password: string;
+export interface IApiLogin extends IApiAuth {}
+export interface IApiRegister extends IApiAuth {
   passwordConfirm: string;
 }
 //APP
@@ -19,10 +18,11 @@ export interface IAuthResult extends IBaseResponseAPI {
 }
 export interface ITokenResult {
   isSuccess: boolean;
-  userName: string;
+  user?: IUser;
 }
 export interface IUser {
-  email: string;
+  name: string;
+  isAdmin: boolean;
   isAuth: boolean;
 }
 export interface ILogin extends IApiLogin {

@@ -3,34 +3,18 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router';
-import { getAuth } from './service/store/auth-selectors';
+import { getEmailValidator, getPasswordValidator } from './service/auth-validators';
+import { getAuthData } from './service/store/auth-selectors';
 import { login } from './service/store/auth-thunks';
 
 export const Login: React.FC = () => {
-  const authData = useSelector(getAuth);
+  const authData = useSelector(getAuthData);
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<string[]>([]);
 
-  const getClearedErrors = (errors: string[], error: string): string[] => errors.filter(x => x !== error);
-
-  const validateEmail = (email: string, errorName: string) => {
-    if (email.length === 0 || (email.includes('@') && email.includes('.'))) {
-      setErrors(getClearedErrors(errors, errorName));
-    } else {
-      setErrors([errorName]);
-    }
-    setEmail(email);
-  };
-  const validatePassword = (password: string, errorName: string) => {
-    if (password.length === 0 || password.length > 8) {
-      setErrors(getClearedErrors(errors, errorName));
-    } else {
-      setErrors([errorName]);
-    }
-    setPassword(password);
-  };
+  const isDisabled = email.length === 0 || password.length === 0 || errors.length > 0;
   const authenticate = () => {
     if (errors.length === 0) {
       dispatch(login({ email: email, password: password }));
@@ -61,7 +45,10 @@ export const Login: React.FC = () => {
               placeholder='email'
               autoComplete='off'
               value={email}
-              onInput={(e: React.SyntheticEvent<HTMLInputElement>) => validateEmail(e.currentTarget.value, 'В ожидании корректного email...')}
+              onInput={(e: React.SyntheticEvent<HTMLInputElement>) => {
+                setErrors(getEmailValidator(errors, e.currentTarget.value));
+                setEmail(e.currentTarget.value);
+              }}
             />
           </div>
         </div>
@@ -73,17 +60,16 @@ export const Login: React.FC = () => {
               placeholder='password'
               autoComplete='off'
               value={password}
-              onInput={(e: React.SyntheticEvent<HTMLInputElement>) => validatePassword(e.currentTarget.value, 'В ожидании корректного пароля...')}
+              onInput={(e: React.SyntheticEvent<HTMLInputElement>) => {
+                setErrors(getPasswordValidator(errors, e.currentTarget.value));
+                setPassword(e.currentTarget.value);
+              }}
             />
           </div>
         </div>
         <div className='row mt-4'>
           <div className='col text-center'>
-            <button
-              className='btn btn-sm btn-light w-50'
-              disabled={email.length === 0 || password.length === 0 || errors.length > 0}
-              onClick={() => authenticate()}
-            >
+            <button className='btn btn-sm btn-light w-50' disabled={isDisabled} onClick={() => authenticate()}>
               login
             </button>
           </div>

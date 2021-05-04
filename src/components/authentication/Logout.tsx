@@ -10,5 +10,6 @@ export const Logout: React.FC = () => {
   useEffect(() => {
     dispatch(logout());
   }, [dispatch]);
+  
   return <Redirect to='/' />;
 };
