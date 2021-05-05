@@ -1,7 +1,7 @@
 /** @format */
 
 import React, { CSSProperties, useState } from 'react';
-import { IFilter, IPagination } from '../types/common-interfaces';
+import { IFilter, IPagination } from '../service/types/common-interfaces';
 import { useDispatch } from 'react-redux';
 import { fetchCompanies } from '../../components/company/services/store/company-thunks';
 import { companyActions } from '../../components/company/services/store/company-reducer';

@@ -1,7 +1,7 @@
 /** @format */
 
-import { ICollectionBehavior } from '../../../../common/types/common-interfaces';
-import { ActionTypeCreator } from '../../../../common/types/common-types';
+import { ICollectionBehavior } from '../../../../common/service/types/common-interfaces';
+import { ActionTypeCreator } from '../../../../common/service/types/common-types';
 import { IAccount } from '../types/account-interfaces';
 
 export const accountActions = {

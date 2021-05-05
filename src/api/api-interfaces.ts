@@ -62,15 +62,6 @@ export interface IApiExchangeRate extends IApiBaseBrokerReportModel {
   statusId: number;
   statusName: string;
 }
-export interface IApiStockTransaction extends IApiBaseBrokerReportModel {
-  identifier: number;
-  cost: number;
-  quantity: number;
-  tickerId: number;
-  statusId: number;
-  statusName: string;
-  exchangeId: number;
-}
 
 export interface IApiBuyRecommendation extends IApiEntity {
   dateUpdate: Date;

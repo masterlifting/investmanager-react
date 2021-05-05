@@ -1,9 +1,9 @@
 /** @format */
 
-import { IApiEntity, IApiShortModel } from '../../../../api/api-interfaces';
-import { IAppShortModel, IMutableEntity } from '../../../../common/types/common-interfaces';
-import { CompanyMenuItemProps } from './company-types';
-//API
+import { IApiBaseBrokerReportModel, IApiEntity, IApiShortModel } from '../../../../api/api-interfaces';
+import { IAppShortModel, IMutableEntity } from '../../../../common/service/types/common-interfaces';
+
+//#region API
 export interface IApiCompany extends IApiShortModel {
   dateSplit?: Date;
   industryId: number;
@@ -14,17 +14,42 @@ export interface IApiCompanyAdditional extends IApiEntity {
   industryName: string;
   currency: string;
 }
-//APP
-export interface IAppCompanyAdditional extends IApiCompanyAdditional {}
+//#region Transactions
+export interface IApiComanyTransactionsSummary {
+  dateTransaction: Date;
+  cost: number;
+  quantity: number;
+  statusName: string;
+  actualLot: number;
+  currentProfit: number;
+}
+interface IApiCompanyTransaction extends IApiBaseBrokerReportModel {
+  identifier: number;
+  cost: number;
+  quantity: number;
+  tickerId: number;
+  statusId: number;
+  statusName: string;
+  exchangeId: number;
+}
+//#endregion
+//#endregion
+//#region APP
+interface IAppCompanyTransactions {
+  summary: IApiComanyTransactionsSummary;
+  transactions?: IApiCompanyTransaction[];
+}
 export interface ICompany extends IAppShortModel, IMutableEntity {
   selected: boolean;
   visibled: boolean;
-  additionalInfo?: IAppCompanyAdditional;
+  additional?: IApiCompanyAdditional;
+  transactions?: IAppCompanyTransactions;
 }
 export interface ICompanyMenu {
   id: number;
   name: string;
   selected: boolean;
   visibled: boolean;
-  MenuComponent: React.FC<CompanyMenuItemProps>;
+  MenuComponent: React.FC<ICompany>;
 }
+//#endregion

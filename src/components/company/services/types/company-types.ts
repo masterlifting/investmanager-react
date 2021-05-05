@@ -6,6 +6,3 @@ export type CompanyProps = {
   company: ICompany;
   isSelectable: boolean;
 };
-export type CompanyMenuItemProps = {
-  company: ICompany;
-};

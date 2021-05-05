@@ -1,10 +1,10 @@
 /** @format */
 
-import { IAuthResult, ITokenResult, IUser } from './types/auth-interfaces';
+import { ITokenResult, IUser, IToken } from './types/auth-interfaces';
 import jwt_decode from 'jwt-decode';
 import { authApi } from '../../../api/api-configuration';
 
-const getTokenUser = (token: string): IUser => {
+const parseTokenUser = (token: string): IUser => {
   var user: IUser = { name: '', isAuth: false, isAdmin: false };
   const decodedToken: Object = jwt_decode(token);
   const entries = Object.entries(decodedToken);
@@ -22,20 +22,24 @@ const getTokenUser = (token: string): IUser => {
   return user;
 };
 
-export const setJwtToken = (authResult: IAuthResult): ITokenResult => {
-  const token = `Bearer ${authResult.token}`;
+export const jwtServise = {
+  getToken:():IToken | undefined => authApi.getToken(),
+  setToken: (data: IToken): ITokenResult => {
+    const tokenData = `Bearer ${data.token}`;
+    const tokenExpiry = data.expiry;
 
-  authApi.setAuthHeader(token);
+    authApi.setToken({ token: tokenData, expiry: tokenExpiry });
 
-  const result: ITokenResult = { isSuccess: false };
-  const user = getTokenUser(token);
-  if (user.isAuth) {
-    result.isSuccess = true;
-    result.user = user;
-  }
-  return result;
-};
-export const removeJwtToken = (): ITokenResult => {
-  authApi.removeToken();
-  return { isSuccess: true, user: undefined };
+    const result: ITokenResult = { isSuccess: false };
+    const user = parseTokenUser(tokenData);
+    if (user.isAuth) {
+      result.isSuccess = true;
+      result.user = user;
+    }
+    return result;
+  },
+  removeToken: (): ITokenResult => {
+    authApi.removeToken();
+    return { isSuccess: true, user: undefined };
+  },
 };

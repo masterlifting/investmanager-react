@@ -1,7 +1,7 @@
 /** @format */
 
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
-import { IApiLogin, IApiRegister, IAuthResult, IApiAuth } from '../components/authentication/service/types/auth-interfaces';
+import { IApiLogin, IApiRegister, IAuthResult, IApiAuth, IToken } from '../components/authentication/service/types/auth-interfaces';
 import { IApiEntity, IEditableResponseAPI, IResponseAPI } from './api-interfaces';
 
 const serverUrl = 'https://localhost:44379/';
@@ -28,6 +28,7 @@ class RestApi {
       result.isSuccess = true;
       result.data = response.data;
     }
+
     return result;
   };
   postAsync = async <TModel extends IApiEntity>(route: string, model: TModel): Promise<IEditableResponseAPI> =>
@@ -47,7 +48,7 @@ class AuthApi {
 
   private getBaseAuthAsync = async <T extends IApiAuth>(route: string, model: T): Promise<IAuthResult> => {
     const response = await this.axiosInstance.post<T, AxiosResponse<IAuthResult>>(route, model);
-    const result: IAuthResult = { isSuccess: false };
+    const result: IAuthResult = { isSuccess: false, token: '' };
 
     if (response.status === 200) {
       if (response.data.isSuccess) {
@@ -63,9 +64,19 @@ class AuthApi {
   };
   loginAsync = async (route: string, model: IApiLogin): Promise<IAuthResult> => this.getBaseAuthAsync(route, model);
   registerAsync = async (route: string, model: IApiRegister): Promise<IAuthResult> => this.getBaseAuthAsync(route, model);
-  setAuthHeader = (token: string) => {
-    localStorage.setItem(this.key, token);
-    this.axiosInstance.defaults.headers.common[this.authHeader] = token;
+  setToken = (token: IToken) => {
+    localStorage.setItem(this.key, JSON.stringify(token));
+    this.axiosInstance.defaults.headers.common[this.authHeader] = token.token;
+  };
+  getToken = (): IToken | undefined => {
+    const token = localStorage.getItem(this.key);
+
+    if (token !== null) {
+      const result: IToken = JSON.parse(token);
+      return result;
+    }
+
+    return undefined;
   };
   removeToken = () => {
     localStorage.removeItem(this.key);

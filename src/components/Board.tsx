@@ -1,33 +1,23 @@
 /** @format */
 
-import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAccountsSum } from './account/services/store/account-selectors';
-import { fetchAccounts } from './account/services/store/account-thunks';
-import { getUser } from './authentication/service/store/auth-selectors';
+import { useEffect } from 'react';
+import { getUsd } from '../common/service/store/service-selectors';
+import { fetchRate } from '../common/service/store/service-thunks';
 
 export const Board: React.FC = () => {
-  const user = useSelector(getUser);
-
   return (
     <div className='row px-4 pt-1' style={{ height: '10%' }}>
       <BoardLeft />
-      <BoardCenter {...user.isAuth} />
+      <BoardCenter />
       <BoardRight />
     </div>
   );
 };
 
-const BoardCenter: React.FC<boolean> = isAuth => {
+const BoardCenter: React.FC = () => {
   const sum = useSelector(getAccountsSum);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (isAuth) {
-      dispatch(fetchAccounts(1, 5));
-    }
-  }, [dispatch, isAuth]);
-
   return (
     <div className='col-6 col-md-8 align-self-center'>
       <h2 className='text-center text-info text-nowrap'>{sum} р.</h2>
@@ -53,11 +43,17 @@ const BoardLeft: React.FC = () => {
   );
 };
 const BoardRight: React.FC = () => {
+  let usd = useSelector(getUsd);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchRate());
+  }, [dispatch]);
   return (
     <div className='col-3 col-md-2 align-self-stretch'>
       <div className='row mb-3'>
         <span className='col' style={{ textAlign: 'end' }}>
-          $73,5
+          ${usd}
         </span>
       </div>
       <div className='row item-hover'>

@@ -2,20 +2,29 @@
 import { useState } from 'react';
 import { ICompany, ICompanyMenu } from './services/types/company-interfaces';
 import { CompanyMenuHoc } from './CompanyMenuHoc';
-import { CompanyAdditionalInfo, CompanyTransaction } from './CompanyMenuShortComponents';
+import {
+  CompanyAdditionalInfo as CompanyAdditional,
+  CompanyTransaction,
+  CompanyRating,
+  CompanyRecommendationToBuy,
+  CompanyRecommendationToSell,
+  CompanyIndexes,
+  CompanyReports,
+  CompanyPrices,
+  CompanyDividends,
+} from './CompanyMenuItems';
 
-export const CompanyMenu: React.FC<ICompany> = props => {
+export const CompanyMenu: React.FC<ICompany> = company => {
   const initialMenu: ICompanyMenu[] = [
-    { id: 1, selected: false, visibled: false, name: 'Дополнительная информация', MenuComponent: CompanyMenuHoc(CompanyAdditionalInfo) },
+    { id: 1, selected: false, visibled: false, name: 'Дополнительная информация', MenuComponent: CompanyMenuHoc(CompanyAdditional) },
     { id: 2, selected: false, visibled: false, name: 'Транзакции', MenuComponent: CompanyMenuHoc(CompanyTransaction) },
-    { id: 3, selected: false, visibled: false, name: 'Рейтинг', MenuComponent: CompanyMenuHoc(CompanyAdditionalInfo) },
-    { id: 4, selected: false, visibled: false, name: 'Рекомендация к покупке', MenuComponent: CompanyMenuHoc(CompanyAdditionalInfo) },
-    { id: 5, selected: false, visibled: false, name: 'Рекомендация к продаже', MenuComponent: CompanyMenuHoc(CompanyAdditionalInfo) },
-    { id: 6, selected: false, visibled: false, name: 'Индексы', MenuComponent: CompanyMenuHoc(CompanyAdditionalInfo) },
-    { id: 7, selected: false, visibled: false, name: 'Отчеты', MenuComponent: CompanyMenuHoc(CompanyAdditionalInfo) },
-    { id: 8, selected: false, visibled: false, name: 'Цены', MenuComponent: CompanyMenuHoc(CompanyAdditionalInfo) },
-    { id: 9, selected: false, visibled: false, name: 'Дивиденды', MenuComponent: CompanyMenuHoc(CompanyAdditionalInfo) },
-    { id: 10, selected: false, visibled: false, name: 'Редактировать', MenuComponent: CompanyMenuHoc(CompanyAdditionalInfo) },
+    { id: 3, selected: false, visibled: false, name: 'Рейтинг', MenuComponent: CompanyMenuHoc(CompanyRating) },
+    { id: 4, selected: false, visibled: false, name: 'Рекомендация к покупке', MenuComponent: CompanyMenuHoc(CompanyRecommendationToBuy) },
+    { id: 5, selected: false, visibled: false, name: 'Рекомендация к продаже', MenuComponent: CompanyMenuHoc(CompanyRecommendationToSell) },
+    { id: 6, selected: false, visibled: false, name: 'Индексы', MenuComponent: CompanyMenuHoc(CompanyIndexes) },
+    { id: 7, selected: false, visibled: false, name: 'Отчеты', MenuComponent: CompanyMenuHoc(CompanyReports) },
+    { id: 8, selected: false, visibled: false, name: 'Цены', MenuComponent: CompanyMenuHoc(CompanyPrices) },
+    { id: 9, selected: false, visibled: false, name: 'Дивиденды', MenuComponent: CompanyMenuHoc(CompanyDividends) },
   ];
   const [menuList, setMenuList] = useState(initialMenu);
   const showMenuItem = (id: number) => {
@@ -37,7 +46,7 @@ export const CompanyMenu: React.FC<ICompany> = props => {
             </div>
           </div>
           <div className='row'>
-            <div className='offset-md-3 col-md-9 col'>{x.visibled ? <x.MenuComponent company={props} /> : <></>}</div>
+            <div className='offset-md-3 col-md-9 col'>{x.visibled ? <x.MenuComponent {...company} /> : <></>}</div>
           </div>
         </li>
       ))}

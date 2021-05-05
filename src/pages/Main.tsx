@@ -3,7 +3,7 @@
 import React from 'react';
 import { Board } from '../components/Board';
 import { Companies } from '../components/company/Companies';
-import { Footer } from '../components/Footer';
+import { Footer } from '../components/company/Footer';
 
 export const Main: React.FC = () => {
   return (

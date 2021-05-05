@@ -7,14 +7,16 @@ export interface IApiAuth {
   email: string;
   password: string;
 }
+export interface IToken {
+  token: string;
+  expiry?: Date;
+}
 export interface IApiLogin extends IApiAuth {}
 export interface IApiRegister extends IApiAuth {
   passwordConfirm: string;
 }
 //APP
-export interface IAuthResult extends IBaseResponseAPI {
-  token?: string;
-  expiry?: Date;
+export interface IAuthResult extends IBaseResponseAPI, IToken {
 }
 export interface ITokenResult {
   isSuccess: boolean;

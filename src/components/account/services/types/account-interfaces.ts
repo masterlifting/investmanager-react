@@ -1,7 +1,7 @@
 /** @format */
 
 import { IApiShortModel } from '../../../../api/api-interfaces';
-import { IAppShortModel, IMutableEntity } from '../../../../common/types/common-interfaces';
+import { IAppShortModel, IMutableEntity } from '../../../../common/service/types/common-interfaces';
 
 /** @format */
 export interface IApiAccount extends IApiShortModel {

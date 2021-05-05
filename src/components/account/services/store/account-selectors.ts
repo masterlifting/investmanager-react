@@ -1,6 +1,6 @@
 /** @format */
 
-import { AppStateType } from '../../../../common/types/common-types';
+import { AppStateType } from '../../../../common/service/types/common-types';
 
 export const getAccounts = (state: AppStateType) => state.account.items;
 export const getSelectedAccounts = (state: AppStateType) => state.account.items.filter(x => x.selected);

@@ -1,8 +1,8 @@
 /** @format */
 
-import { ActionTypeCreator } from '../../../../common/types/common-types';
-import { IAppCompanyAdditional, ICompany } from '../types/company-interfaces';
-import { ICollectionBehavior } from '../../../../common/types/common-interfaces';
+import { ActionTypeCreator } from '../../../../common/service/types/common-types';
+import { IApiCompanyAdditional, ICompany, IApiComanyTransactionsSummary } from '../types/company-interfaces';
+import { ICollectionBehavior } from '../../../../common/service/types/common-interfaces';
 
 export const companyActions = {
   setItems: (items: ICompany[]) => ({ type: 'company/setItems', items } as const),
@@ -12,7 +12,8 @@ export const companyActions = {
   setVisibleItems: (ids: number[]) => ({ type: 'company/setVisibleItems', ids } as const),
   changeSelectable: (id: number) => ({ type: 'company/changeSelectable', id } as const),
   clearSelectable: () => ({ type: 'company/clearSelectable' } as const),
-  setAdditionalInfo: (id: number, info: IAppCompanyAdditional) => ({ type: 'company/setAdditionalInfo', id, info } as const),
+  setAdditional: (id: number, info: IApiCompanyAdditional) => ({ type: 'company/setAdditional', id, info } as const),
+  setTransactionsSummary: (id: number, summary: IApiComanyTransactionsSummary) => ({ type: 'company/setTransactionsSummary', id, summary } as const),
 };
 export type CompanyActionType = ActionTypeCreator<typeof companyActions>;
 const initialState: ICollectionBehavior<ICompany> = {
@@ -70,8 +71,24 @@ export const companyReducer = (state = initialState, action: CompanyActionType):
     case 'company/setFindingPhrase': {
       return { ...state, filter: { ...state.filter, phrase: action.phrase } };
     }
-    case 'company/setAdditionalInfo': {
-      state.items.forEach(x => (x.id === action.id ? (x.additionalInfo = action.info) : x));
+    case 'company/setAdditional': {
+      for (let i = 0; i < state.items.length; i++) {
+        if (state.items[i].id === action.id) {
+          state.items[i].additional = action.info;
+        }
+      }
+      return { ...state, items: [...state.items] };
+    }
+    case 'company/setTransactionsSummary': {
+      for (let i = 0; i < state.items.length; i++) {
+        if (state.items[i].id === action.id) {
+          if (state.items[i].transactions != undefined) {
+            state.items[i].transactions!.summary = action.summary;
+          } else {
+            state.items[i].transactions = { summary: action.summary };
+          }
+        }
+      }
       return { ...state, items: [...state.items] };
     }
     default:

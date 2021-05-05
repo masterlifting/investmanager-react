@@ -1,6 +1,6 @@
 /** @format */
 
-import { ActionTypeCreator } from '../../../../common/types/common-types';
+import { ActionTypeCreator } from '../../../../common/service/types/common-types';
 import { IAuth, IUser } from '../types/auth-interfaces';
 
 export const authActions = {

@@ -6,7 +6,7 @@ import { IApiAccount, IApiAccountAdditional } from "./types/account-interfaces";
 
 export class AccountAPI {
   private controller: string = 'accounts';
-  getByPaginationAsync = async (page: number, limit: number, phrase: string | null): Promise<IResponseAPI<IApiPagination<IApiAccount>>> => {
+  getAccountsAsync = async (page: number, limit: number, phrase: string | null): Promise<IResponseAPI<IApiPagination<IApiAccount>>> => {
     let queryString = `${this.controller}/react?page=${page}&limit=${limit}`;
     if (phrase !== null) {
       queryString += `&phrase=${phrase}`;

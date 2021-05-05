@@ -1,7 +1,7 @@
 /** @format */
 
 import { useDispatch } from 'react-redux';
-import { companyActions } from './company/services/store/company-reducer';
+import { companyActions } from './services/store/company-reducer';
 
 export const Footer: React.FC = () => {
   const dispatch = useDispatch();
