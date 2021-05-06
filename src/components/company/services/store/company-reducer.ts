@@ -82,7 +82,7 @@ export const companyReducer = (state = initialState, action: CompanyActionType):
     case 'company/setTransactionsSummary': {
       for (let i = 0; i < state.items.length; i++) {
         if (state.items[i].id === action.id) {
-          if (state.items[i].transactions != undefined) {
+          if (state.items[i].transactions !== undefined) {
             state.items[i].transactions!.summary = action.summary;
           } else {
             state.items[i].transactions = { summary: action.summary };

@@ -1,25 +1,39 @@
 /** @format */
 
-import { IApiBaseBrokerReportModel, IApiEntity, IApiShortModel } from '../../../../api/api-interfaces';
-import { IAppShortModel, IMutableEntity } from '../../../../common/service/types/common-interfaces';
-
 //#region API
-export interface IApiCompany extends IApiShortModel {
+export interface IApiCompany {
+  id: number;
+  name: string;
+  description?: string;
   dateSplit?: Date;
   industryId: number;
   sectorId: number;
 }
-export interface IApiCompanyAdditional extends IApiEntity {
-  sectorName: string;
-  industryName: string;
+export interface IApiBaseBrokerReportModel {
+  currencyId: number;
+  accountId: number;
+  dateOperation: Date;
+}
+export interface IApiCompanyAdditional {
+  sector: string;
+  industry: string;
   currency: string;
+}
+export interface IApiSellRecommendation {
+  dateUpdate: Date;
+  lotMin: number;
+  lotMid: number;
+  lotMax: number;
+  priceMin: number;
+  priceMid: number;
+  priceMax: number;
 }
 //#region Transactions
 export interface IApiComanyTransactionsSummary {
-  dateTransaction: Date;
+  date: Date;
   cost: number;
   quantity: number;
-  statusName: string;
+  status: string;
   actualLot: number;
   currentProfit: number;
 }
@@ -35,15 +49,17 @@ interface IApiCompanyTransaction extends IApiBaseBrokerReportModel {
 //#endregion
 //#endregion
 //#region APP
-interface IAppCompanyTransactions {
+interface ICompanyTransactions {
   summary: IApiComanyTransactionsSummary;
-  transactions?: IApiCompanyTransaction[];
+  items?: IApiCompanyTransaction[];
 }
-export interface ICompany extends IAppShortModel, IMutableEntity {
+export interface ICompany extends IApiCompany {
   selected: boolean;
   visibled: boolean;
+
   additional?: IApiCompanyAdditional;
-  transactions?: IAppCompanyTransactions;
+  transactions?: ICompanyTransactions;
+  sellRecommendation?: IApiSellRecommendation;
 }
 export interface ICompanyMenu {
   id: number;

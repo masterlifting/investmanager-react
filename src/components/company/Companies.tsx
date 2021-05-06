@@ -41,6 +41,7 @@ export const Companies: React.FC = () => {
     const visibledIds: number[] = companies.filter(x => x.selected).map(x => x.id);
     dispatch(companyActions.setVisibleItems(visibledIds));
   };
+  
   return (
     <div className='row px-3' style={{ overflowY: 'auto', height: '85%' }}>
       <div className='offset-md-3 col-md-6 col'>

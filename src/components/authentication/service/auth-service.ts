@@ -23,9 +23,13 @@ const parseTokenUser = (token: string): IUser => {
 };
 
 export const jwtServise = {
-  getToken:():IToken | undefined => authApi.getToken(),
+  getToken: (): IToken | undefined => authApi.getToken(),
   setToken: (data: IToken): ITokenResult => {
-    const tokenData = `Bearer ${data.token}`;
+    let tokenData = data.token;
+    if (tokenData.indexOf('Bearer') === -1) {
+      tokenData = `Bearer ${data.token}`;
+    }
+
     const tokenExpiry = data.expiry;
 
     authApi.setToken({ token: tokenData, expiry: tokenExpiry });

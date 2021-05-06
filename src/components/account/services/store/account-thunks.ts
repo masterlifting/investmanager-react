@@ -12,7 +12,7 @@ export const fetchAccounts = (accounts: IAccount[] = []): ThunkType<AccountActio
 
   const response = await accountAPI.getAccountsAsync(1, 100, null);
   if (response.isSuccess) {
-    _accounts = response.data!.items!.map(x => ({
+    _accounts = response.data!.items.map(x => ({
       id: x.id,
       name: x.name,
       description: x.description,

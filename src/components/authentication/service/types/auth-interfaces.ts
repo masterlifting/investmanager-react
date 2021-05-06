@@ -1,7 +1,5 @@
 /** @format */
 
-import { IBaseResponseAPI } from '../../../../api/api-interfaces';
-
 //API
 export interface IApiAuth {
   email: string;
@@ -16,7 +14,9 @@ export interface IApiRegister extends IApiAuth {
   passwordConfirm: string;
 }
 //APP
-export interface IAuthResult extends IBaseResponseAPI, IToken {
+export interface IAuthResult extends IToken {
+  isSuccess: boolean;
+  info?:string;
 }
 export interface ITokenResult {
   isSuccess: boolean;

@@ -2,7 +2,7 @@
 
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import { IApiLogin, IApiRegister, IAuthResult, IApiAuth, IToken } from '../components/authentication/service/types/auth-interfaces';
-import { IApiEntity, IEditableResponseAPI, IResponseAPI } from './api-interfaces';
+import { IApiBaseResponse } from './api-interfaces';
 
 const serverUrl = 'https://localhost:44379/';
 
@@ -16,27 +16,28 @@ class RestApi {
   constructor(axiosInstance: AxiosInstance) {
     this.axiosInstance = axiosInstance;
   }
-  private getEditableResult = (response: AxiosResponse<IEditableResponseAPI>): IEditableResponseAPI => ({
-    isSuccess: response.status === 200,
-    info: response.data.info,
-    resultId: response.data.resultId,
-  });
-  getAsync = async <T extends IApiEntity>(route: string): Promise<IResponseAPI<T>> => {
-    const response = await this.axiosInstance.get<T>(route);
-    const result: IResponseAPI<T> = { isSuccess: false };
+  private getResult = <T>(response: AxiosResponse<IApiBaseResponse<T>>): IApiBaseResponse<T> => {
+    const result: IApiBaseResponse<T> = { isSuccess: false, data: null, errors: null };
     if (response.status === 200) {
-      result.isSuccess = true;
-      result.data = response.data;
+      if (response.data.isSuccess) {
+        result.isSuccess = true;
+        result.data = response.data.data;
+      } else {
+        result.errors = response.data.errors;
+      }
+    } else {
+      result.errors = [response.statusText];
     }
 
     return result;
   };
-  postAsync = async <TModel extends IApiEntity>(route: string, model: TModel): Promise<IEditableResponseAPI> =>
-    this.getEditableResult(await this.axiosInstance.post<IEditableResponseAPI>(route, model));
-  putAsync = async <T extends IApiEntity>(route: string, id: number, model: T): Promise<IEditableResponseAPI> =>
-    this.getEditableResult(await this.axiosInstance.put<IEditableResponseAPI>(`${route}/${id}`, model));
-  deleteAsync = async (route: string, id: number): Promise<IEditableResponseAPI> =>
-    this.getEditableResult(await this.axiosInstance.delete<IEditableResponseAPI>(`${route}/${id}`));
+  getAsync = async <T>(route: string): Promise<IApiBaseResponse<T>> => this.getResult(await this.axiosInstance.get<IApiBaseResponse<T>>(route));
+  postAsync = async <T>(route: string, model: T): Promise<IApiBaseResponse<T>> =>
+    this.getResult(await this.axiosInstance.post<IApiBaseResponse<T>>(route, model));
+  putAsync = async <T>(route: string, id: number, model: T): Promise<IApiBaseResponse<T>> =>
+    this.getResult(await this.axiosInstance.put<IApiBaseResponse<T>>(`${route}/${id}`, model));
+  deleteAsync = async <T>(route: string, id: number): Promise<IApiBaseResponse<T>> =>
+    this.getResult(await this.axiosInstance.delete<IApiBaseResponse<T>>(`${route}/${id}`));
 }
 class AuthApi {
   private axiosInstance: AxiosInstance;
@@ -64,9 +65,9 @@ class AuthApi {
   };
   loginAsync = async (route: string, model: IApiLogin): Promise<IAuthResult> => this.getBaseAuthAsync(route, model);
   registerAsync = async (route: string, model: IApiRegister): Promise<IAuthResult> => this.getBaseAuthAsync(route, model);
-  setToken = (token: IToken) => {
-    localStorage.setItem(this.key, JSON.stringify(token));
-    this.axiosInstance.defaults.headers.common[this.authHeader] = token.token;
+  setToken = (data: IToken) => {
+    localStorage.setItem(this.key, JSON.stringify(data));
+    this.axiosInstance.defaults.headers.common[this.authHeader] = data.token;
   };
   getToken = (): IToken | undefined => {
     const token = localStorage.getItem(this.key);
