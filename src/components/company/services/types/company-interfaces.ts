@@ -1,6 +1,11 @@
 /** @format */
 
 //#region API
+interface IApiBaseBrokerReportModel {
+  currencyId: number;
+  accountId: number;
+  dateOperation: Date;
+}
 export interface IApiCompany {
   id: number;
   name: string;
@@ -9,15 +14,14 @@ export interface IApiCompany {
   industryId: number;
   sectorId: number;
 }
-export interface IApiBaseBrokerReportModel {
-  currencyId: number;
-  accountId: number;
-  dateOperation: Date;
-}
-export interface IApiCompanyAdditional {
+export interface IApiCompanySummary {
   sector: string;
   industry: string;
   currency: string;
+  actualLot: number;
+  currentProfit: number;
+  dividendSum: number;
+  ratingPlace: string;
 }
 export interface IApiSellRecommendation {
   dateUpdate: Date;
@@ -28,37 +32,24 @@ export interface IApiSellRecommendation {
   priceMid: number;
   priceMax: number;
 }
-//#region Transactions
-export interface IApiComanyTransactionsSummary {
-  date: Date;
-  cost: number;
-  quantity: number;
-  status: string;
-  actualLot: number;
-  currentProfit: number;
-}
-interface IApiCompanyTransaction extends IApiBaseBrokerReportModel {
+export interface IApiCompanyTransaction extends IApiBaseBrokerReportModel {
   identifier: number;
   cost: number;
   quantity: number;
   tickerId: number;
   statusId: number;
-  statusName: string;
+  status: string;
   exchangeId: number;
 }
 //#endregion
-//#endregion
 //#region APP
-interface ICompanyTransactions {
-  summary: IApiComanyTransactionsSummary;
-  items?: IApiCompanyTransaction[];
-}
+
 export interface ICompany extends IApiCompany {
   selected: boolean;
   visibled: boolean;
 
-  additional?: IApiCompanyAdditional;
-  transactions?: ICompanyTransactions;
+  summary?: IApiCompanySummary;
+  transactions?: IApiCompanyTransaction[];
   sellRecommendation?: IApiSellRecommendation;
 }
 export interface ICompanyMenu {

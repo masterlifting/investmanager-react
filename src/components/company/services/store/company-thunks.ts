@@ -1,7 +1,7 @@
 /** @format */
 
 import { ThunkType } from '../../../../common/service/types/common-types';
-import { IApiComanyTransactionsSummary, ICompany } from '../types/company-interfaces';
+import { IApiCompanyTransaction, ICompany, IApiCompanySummary } from '../types/company-interfaces';
 import { companyActions, CompanyActionType } from './company-reducer';
 import { CompanyAPI } from '../company-api';
 import { IAccount } from '../../../account/services/types/account-interfaces';
@@ -25,62 +25,57 @@ export const fetchCompanies = (page: number, limit: number, phrase: string | nul
     dispatch(companyActions.setItemsTotalCount(response.data!.totalCount));
   }
 };
-export const fetchCompanyAdditionalInfo = (companyId: number): ThunkType<CompanyActionType> => async dispatch => {
-  const response = await companyAPI.getAdditionalAsync(companyId);
-  if (response.isSuccess) {
-    dispatch(companyActions.setAdditional(companyId, response.data!));
-  }
-};
-
-export const fetchCompanyTransactionsSummary = (companyId: number, accounts: IAccount[]): ThunkType<CompanyActionType> => async dispatch => {
-  const summaries: IApiComanyTransactionsSummary[] = [];
+export const fetchCompanySummary = (companyId: number, accounts: IAccount[]): ThunkType<CompanyActionType> => async dispatch => {
+  const summaries: IApiCompanySummary[] = [];
 
   for (let i = 0; i < accounts.length; i++) {
     if (accounts[i].selected) {
-      const response = await companyAPI.getTransactionsSummary(accounts[i].id, companyId);
+      const response = await companyAPI.getSummaryAsync(companyId, accounts[i].id);
       if (response.isSuccess) {
         summaries.push(response.data!);
       }
     }
   }
-  if (summaries.length > 0) {
-    const orderedSummaries = summaries.sort((x, y) => (x.date >= y.date ? -1 : 1));
-    const result: IApiComanyTransactionsSummary = {
-      date: new Date(orderedSummaries[0].date),
-      status: orderedSummaries[0].status,
-      quantity: orderedSummaries[0].quantity,
-      cost: orderedSummaries[0].cost,
 
-      actualLot: orderedSummaries.map(x => x.actualLot).reduce((x, y) => x + y, 0),
-      currentProfit: orderedSummaries.map(x => x.currentProfit).reduce((x, y) => x + y, 0),
+  if (summaries.length > 0) {
+    const result: IApiCompanySummary = {
+      currency: summaries[0].currency,
+      industry: summaries[0].industry,
+      sector: summaries[0].sector,
+      ratingPlace: summaries[0].ratingPlace,
+      dividendSum: summaries.map(x => x.dividendSum).reduce((x, y) => x + y, 0),
+      actualLot: summaries.map(x => x.actualLot).reduce((x, y) => x + y, 0),
+      currentProfit: summaries.map(x => x.currentProfit).reduce((x, y) => x + y, 0),
     };
 
-    dispatch(companyActions.setTransactionsSummary(companyId, result));
+    dispatch(companyActions.setSummary(companyId, result));
   }
 };
-export const fetchCompanySellRecommendation = (companyId: number): ThunkType<CompanyActionType> => async dispatch => {
-  // const summaries: IApiComanyTransactionsSummary[] = [];
+export const fetchCompanyTransactions = (
+  companyId: number,
+  accounts: IAccount[],
+  page: number,
+  limit: number,
+): ThunkType<CompanyActionType> => async dispatch => {
+  const transactions: IApiCompanyTransaction[] = [];
 
-  // for (let i = 0; i < accounts.length; i++) {
-  //   if (accounts[i].selected) {
-  //     const response = await companyTransactionsAPI.getSummary(accounts[i].id, companyId);
-  //     if (response.isSuccess) {
-  //       summaries.push(response.apiData!);
-  //     }
-  //   }
-  // }
-  // if (summaries.length > 0) {
-  //   const orderedSummaries = summaries.sort((x, y) => (x.date >= y.date ? -1 : 1));
-  //   const result: IApiComanyTransactionsSummary = {
-  //     date: new Date(orderedSummaries[0].date),
-  //     status: orderedSummaries[0].status,
-  //     quantity: orderedSummaries[0].quantity,
-  //     cost: orderedSummaries[0].cost,
-
-  //     actualLot: orderedSummaries.map(x => x.actualLot).reduce((x, y) => x + y, 0),
-  //     currentProfit: orderedSummaries.map(x => x.currentProfit).reduce((x, y) => x + y, 0),
-  //   };
-
-  //   dispatch(companyActions.setTransactionsSummary(companyId, result));
-  // }
+  for (let i = 0; i < accounts.length; i++) {
+    if (accounts[i].selected) {
+      const response = await companyAPI.getTransactionsAsync(companyId, accounts[i].id, page, limit);
+      if (response.isSuccess) {
+        for (let i = 0; i < response.data!.items.length; i++) {
+          response.data!.items[i].dateOperation = new Date(response.data!.items[i].dateOperation);
+          transactions.push(response.data!.items[i]);
+        }
+      }
+    }
+  }
+  if (transactions.length > 0) {
+    dispatch(
+      companyActions.setTransactions(
+        companyId,
+        transactions.sort((x, y) => (x.dateOperation >= y.dateOperation ? -1 : 1)),
+      ),
+    );
+  }
 };

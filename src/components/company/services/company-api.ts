@@ -2,7 +2,7 @@
 
 import { restApi } from '../../../api/api-configuration';
 import { IApiPagination, IApiBaseResponse } from '../../../api/api-interfaces';
-import { IApiComanyTransactionsSummary, IApiCompany, IApiCompanyAdditional } from './types/company-interfaces';
+import { IApiCompany, IApiCompanySummary, IApiCompanyTransaction } from './types/company-interfaces';
 
 export class CompanyAPI {
   private controller = 'company';
@@ -15,8 +15,13 @@ export class CompanyAPI {
     }
     return await restApi.getAsync(queryString);
   };
-  getAdditionalAsync = async (id: number): Promise<IApiBaseResponse<IApiCompanyAdditional>> =>
-    await restApi.getAsync(`${this.controller}/${id}/additional`);
-  getTransactionsSummary = async (accountId: number, companyId: number): Promise<IApiBaseResponse<IApiComanyTransactionsSummary>> =>
-    await restApi.getAsync(`${this.controller}/${companyId}/transactions/${accountId}/summary`);
+  getSummaryAsync = async (id: number, accountId: number): Promise<IApiBaseResponse<IApiCompanySummary>> =>
+    await restApi.getAsync(`${this.controller}/${id}/summary/${accountId}`);
+  getTransactionsAsync = async (
+    id: number,
+    accountId: number,
+    page: number,
+    limit: number,
+  ): Promise<IApiBaseResponse<IApiPagination<IApiCompanyTransaction>>> =>
+    await restApi.getAsync(`${this.controller}/${id}/transactions/${accountId}?page=${page}&limit=${limit}`);
 }

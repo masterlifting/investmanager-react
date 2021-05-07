@@ -1,7 +1,7 @@
 /** @format */
 
 import { ActionTypeCreator } from '../../../../common/service/types/common-types';
-import { IApiCompanyAdditional, ICompany, IApiComanyTransactionsSummary } from '../types/company-interfaces';
+import { IApiCompanySummary, IApiCompanyTransaction, ICompany } from '../types/company-interfaces';
 import { ICollectionBehavior } from '../../../../common/service/types/common-interfaces';
 
 export const companyActions = {
@@ -12,8 +12,9 @@ export const companyActions = {
   setVisibleItems: (ids: number[]) => ({ type: 'company/setVisibleItems', ids } as const),
   changeSelectable: (id: number) => ({ type: 'company/changeSelectable', id } as const),
   clearSelectable: () => ({ type: 'company/clearSelectable' } as const),
-  setAdditional: (id: number, info: IApiCompanyAdditional) => ({ type: 'company/setAdditional', id, info } as const),
-  setTransactionsSummary: (id: number, summary: IApiComanyTransactionsSummary) => ({ type: 'company/setTransactionsSummary', id, summary } as const),
+  setAdditional: (id: number, info: IApiCompanySummary) => ({ type: 'company/setAdditional', id, info } as const),
+  setSummary: (id: number, summary: IApiCompanySummary) => ({ type: 'company/setSummary', id, summary } as const),
+  setTransactions: (id: number, transactions: IApiCompanyTransaction[]) => ({ type: 'company/setTransactions', id, transactions } as const),
 };
 export type CompanyActionType = ActionTypeCreator<typeof companyActions>;
 const initialState: ICollectionBehavior<ICompany> = {
@@ -74,19 +75,23 @@ export const companyReducer = (state = initialState, action: CompanyActionType):
     case 'company/setAdditional': {
       for (let i = 0; i < state.items.length; i++) {
         if (state.items[i].id === action.id) {
-          state.items[i].additional = action.info;
+          state.items[i].summary = action.info;
         }
       }
       return { ...state, items: [...state.items] };
     }
-    case 'company/setTransactionsSummary': {
+    case 'company/setSummary': {
       for (let i = 0; i < state.items.length; i++) {
         if (state.items[i].id === action.id) {
-          if (state.items[i].transactions !== undefined) {
-            state.items[i].transactions!.summary = action.summary;
-          } else {
-            state.items[i].transactions = { summary: action.summary };
-          }
+          state.items[i].summary = action.summary;
+        }
+      }
+      return { ...state, items: [...state.items] };
+    }
+    case 'company/setTransactions': {
+      for (let i = 0; i < state.items.length; i++) {
+        if (state.items[i].id === action.id) {
+          state.items[i].transactions = action.transactions;
         }
       }
       return { ...state, items: [...state.items] };

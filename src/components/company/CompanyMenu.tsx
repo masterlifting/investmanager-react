@@ -3,8 +3,7 @@ import { useState } from 'react';
 import { ICompany, ICompanyMenu } from './services/types/company-interfaces';
 import { CompanyMenuHoc } from './CompanyMenuHoc';
 import {
-  CompanyAdditionalInfo as CompanyAdditional,
-  CompanyTransaction,
+  CompanyTransactions,
   CompanyRating,
   CompanyRecommendationToBuy,
   CompanyRecommendationToSell,
@@ -12,19 +11,20 @@ import {
   CompanyReports,
   CompanyPrices,
   CompanyDividends,
+  CompanySummary,
 } from './CompanyMenuItems';
 
 export const CompanyMenu: React.FC<ICompany> = company => {
   const initialMenu: ICompanyMenu[] = [
-    { id: 1, selected: false, visibled: false, name: 'Дополнительная информация', MenuComponent: CompanyMenuHoc(CompanyAdditional) },
-    { id: 2, selected: false, visibled: false, name: 'Транзакции', MenuComponent: CompanyMenuHoc(CompanyTransaction) },
-    { id: 3, selected: false, visibled: false, name: 'Рейтинг', MenuComponent: CompanyMenuHoc(CompanyRating) },
-    { id: 4, selected: false, visibled: false, name: 'Рекомендация к покупке', MenuComponent: CompanyMenuHoc(CompanyRecommendationToBuy) },
-    { id: 5, selected: false, visibled: false, name: 'Рекомендация к продаже', MenuComponent: CompanyMenuHoc(CompanyRecommendationToSell) },
-    { id: 6, selected: false, visibled: false, name: 'Индексы', MenuComponent: CompanyMenuHoc(CompanyIndexes) },
-    { id: 7, selected: false, visibled: false, name: 'Отчеты', MenuComponent: CompanyMenuHoc(CompanyReports) },
-    { id: 8, selected: false, visibled: false, name: 'Цены', MenuComponent: CompanyMenuHoc(CompanyPrices) },
-    { id: 9, selected: false, visibled: false, name: 'Дивиденды', MenuComponent: CompanyMenuHoc(CompanyDividends) },
+    { id: 1, selected: false, visibled: false, name: 'Основная информация', MenuComponent: CompanyMenuHoc(CompanySummary) },
+    { id: 2, selected: false, visibled: false, name: 'Рекомендация к покупке', MenuComponent: CompanyMenuHoc(CompanyRecommendationToBuy) },
+    { id: 3, selected: false, visibled: false, name: 'Рекомендация к продаже', MenuComponent: CompanyMenuHoc(CompanyRecommendationToSell) },
+    { id: 4, selected: false, visibled: false, name: 'Транзакции', MenuComponent: CompanyMenuHoc(CompanyTransactions) },
+    { id: 5, selected: false, visibled: false, name: 'Дивиденды', MenuComponent: CompanyMenuHoc(CompanyDividends) },
+    { id: 6, selected: false, visibled: false, name: 'Цены', MenuComponent: CompanyMenuHoc(CompanyPrices) },
+    { id: 7, selected: false, visibled: false, name: 'Индексы', MenuComponent: CompanyMenuHoc(CompanyIndexes) },
+    { id: 8, selected: false, visibled: false, name: 'Отчеты', MenuComponent: CompanyMenuHoc(CompanyReports) },
+    { id: 9, selected: false, visibled: false, name: 'Рейтинг', MenuComponent: CompanyMenuHoc(CompanyRating) },
   ];
   const [menuList, setMenuList] = useState(initialMenu);
   const showMenuItem = (id: number) => {
