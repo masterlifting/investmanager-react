@@ -14,6 +14,7 @@ export const Company: React.FC<CompanyProps> = props => {
     ? {
         border: 'solid .5px grey',
         borderRadius: '10px',
+        marginBottom:'3px'
       }
     : {};
 

@@ -4,7 +4,7 @@ import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import { IApiLogin, IApiRegister, IAuthResult, IApiAuth, IToken } from '../components/authentication/service/types/auth-interfaces';
 import { IApiBaseResponse } from './api-interfaces';
 
-const serverUrl = 'https://localhost:44379/';
+const serverUrl = 'https://paviams.com/';
 
 const instance = axios.create({
   baseURL: serverUrl,

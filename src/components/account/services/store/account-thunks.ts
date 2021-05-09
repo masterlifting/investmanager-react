@@ -10,7 +10,8 @@ const accountAPI = new AccountAPI();
 export const fetchAccounts = (accounts: IAccount[] = []): ThunkType<AccountActionType> => async dispatch => {
   let _accounts: IAccount[] = [];
 
-  const response = await accountAPI.getAccountsAsync(1, 100, null);
+  const response = await accountAPI.getAccountsAsync(1, 5);
+
   if (response.isSuccess) {
     _accounts = response.data!.items.map(x => ({
       id: x.id,
@@ -30,7 +31,7 @@ export const fetchAccounts = (accounts: IAccount[] = []): ThunkType<AccountActio
       }
     }
   }
-
+  
   dispatch(accountActions.setItems(_accounts));
   dispatch(accountActions.setItemsTotalCount(response.data!.totalCount));
 };
