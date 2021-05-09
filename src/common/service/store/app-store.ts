@@ -14,9 +14,9 @@ export const rootReducer = combineReducers({
   service: serviceReducer,
 });
 // @ts-ignore
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-export const appStore = createStore(rootReducer, composeEnhancers(applyMiddleware(thunkMiddleware)));
+export const appStore = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 
 // @ts-ignore
 window.__store__ = appStore;
